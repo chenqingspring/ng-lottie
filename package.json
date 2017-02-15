@@ -1,6 +1,6 @@
 {
   "name": "LottieAnimationView",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "lottie animation view for angular2",
   "main": "./dist/umd/LottieAnimationView.js",
   "module": "./dist/esm/src/index.js",
@@ -18,7 +18,6 @@
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "typedoc": "typedoc --options typedoc.json src/*.ts",
     "gh-pages": "git checkout gh-pages && git merge master --no-edit && npm run build:demo && npm run typedoc && git add . && git commit -m 'chore: build demo and docs' && git push && git checkout master",
-    "prerelease": "npm test",
     "release": "git add package.json && git commit -m 'chore: bump version number' && standard-version --first-release && git push --follow-tags origin master && npm run build:dist && npm publish",
     "postrelease": "npm run build:clean && npm run gh-pages",
     "commitmsg": "validate-commit-msg"
