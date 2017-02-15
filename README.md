@@ -47,9 +47,17 @@ Finally use in one of your apps components:
 import { Component } from '@angular/core';
 
 @Component({
-  template: '<hello-world></hello-world>'
+  template: '<lottie-animation-view [options]="lottieConfig"></lottie-animation-view>'
 })
-export class MyComponent {}
+
+export class MyComponent {
+    public lottieConfig: Object;
+    constructor() {
+        this.lottieConfig = {
+          path: './ae-animation.json'
+        }
+      }
+}
 ```
 
 You may also find it useful to view the [demo source](https://github.com/chenqingspring/lottie-angular2/blob/master/demo/demo.component.ts).
