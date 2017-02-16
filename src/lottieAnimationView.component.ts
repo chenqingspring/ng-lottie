@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import * as bodymovin from "bodymovin/build/player/bodymovin.js";
+const bodymovin = require('bodymovin/build/player/bodymovin.js');
 
 @Component({
     selector: 'lottie-animation-view',
@@ -20,7 +20,7 @@ export class lottieAnimationViewComponent {
             renderer: 'svg',
             loop: true,
             autoplay: true,
-            path: this.options.path
+            path: this.options.path || ''
         };
         this.viewWidth = this.width + 'px' || '100%';
         this.viewHeight = this.height + 'px' || '100%';

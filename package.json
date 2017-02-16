@@ -1,6 +1,6 @@
 {
   "name": "LottieAnimationView",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "lottie animation view for angular2",
   "main": "./dist/umd/LottieAnimationView.js",
   "module": "./dist/esm/src/index.js",
