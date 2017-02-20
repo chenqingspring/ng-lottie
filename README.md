@@ -25,7 +25,7 @@ lottie animation view for angular2
 
 Install through npm:
 ```
-npm install --save LottieAnimationView
+npm install --save lottie-angular2
 ```
 
 Then include in your apps module:
