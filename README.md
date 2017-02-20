@@ -32,7 +32,7 @@ Then include in your apps module:
 
 ```typescript
 import { Component, NgModule } from '@angular/core';
-import { LottieAnimationViewModule } from 'LottieAnimationView';
+import { LottieAnimationViewModule } from 'lottie-angular2';
 
 @NgModule({
   imports: [
