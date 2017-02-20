@@ -1,12 +1,15 @@
-import {Component, Input} from '@angular/core';
-const bodymovin = require('bodymovin/build/player/bodymovin.js');
+import { Component, Input, OnInit } from '@angular/core';
+declare let require: any;
+const bodymovin: any = require('./bodymovin.min.js');
 
 @Component({
     selector: 'lottie-animation-view',
-    template: `<div id="lav-container" [ngStyle]="{'width': viewWidth, 'height': viewHeight, 'overflow':'hidden', 'margin': '0 auto'}"></div>`
+    template: `<div id="lav-container" 
+                    [ngStyle]="{'width': viewWidth, 'height': viewHeight, 'overflow':'hidden', 'margin': '0 auto'}">    
+               </div>`
 })
 
-export class lottieAnimationViewComponent {
+export class LottieAnimationViewComponent implements OnInit {
     @Input() options: any;
     @Input() width: number;
     @Input() height: number;

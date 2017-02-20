@@ -45,10 +45,11 @@
     "@angular/platform-browser-dynamic": "^2.1.0",
     "@types/chai": "^3.4.30",
     "@types/core-js": "^0.9.32",
-    "@types/jasmine": "^2.2.33",
+    "@types/jasmine": "2.5.41",
+    "@types/lodash": "ts2.0",
+    "@types/node": "^7.0.5",
     "@types/sinon": "^1.16.27",
     "@types/sinon-chai": "^2.7.26",
-    "@types/lodash": "ts2.0",
     "awesome-typescript-loader": "^2.2.4",
     "chai": "^3.5.0",
     "codelyzer": "2.0.0-beta.4",
@@ -85,9 +86,6 @@
   },
   "peerDependencies": {
     "@angular/core": "^2.0.0"
-  },
-  "dependencies": {
-    "bodymovin": "^4.5.6"
   },
   "files": [
     "dist"

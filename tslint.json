@@ -52,7 +52,6 @@
     ],
     "typedef": [
       true,
-      "call-signature",
       "parameter",
       "property-declaration",
       "variable-declaration",
@@ -73,7 +72,6 @@
     "component-class-suffix": true,
     "directive-class-suffix": true,
     "import-destructuring-spacing": true,
-    "templates-use-public": true,
     "no-access-missing-member": false,
     "invoke-injectable": true
   }

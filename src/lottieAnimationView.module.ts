@@ -1,13 +1,13 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { lottieAnimationViewComponent } from './lottieAnimationView.component';
+import { LottieAnimationViewComponent } from './lottieAnimationView.component';
 
 @NgModule({
   declarations: [
-    lottieAnimationViewComponent
+    LottieAnimationViewComponent
   ],
   imports: [CommonModule],
-  exports: [lottieAnimationViewComponent]
+  exports: [LottieAnimationViewComponent]
 })
 export class LottieAnimationViewModule {
 

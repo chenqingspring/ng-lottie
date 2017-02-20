@@ -1,0 +1,1 @@
+{"version":3,"file":"index.js","sourceRoot":"","sources":["../../../src/index.ts"],"names":[],"mappings":"AAAA,cAAc,8BAA8B,CAAC","sourcesContent":["export * from './lottieAnimationView.module';\n\ninterface DecoratorInvocation {\n  type: Function;\n  args?: any[];\n}\n"]}
