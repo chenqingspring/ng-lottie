@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-var bodymovin = require('bodymovin/build/player/bodymovin.js');
+var bodymovin = require('./lib/bodymovin.min.js');
 export var LottieAnimationViewComponent = (function () {
     function LottieAnimationViewComponent() {
     }
