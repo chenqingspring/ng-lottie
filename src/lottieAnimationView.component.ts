@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 declare let require: any;
-const bodymovin: any = require('./lib/bodymovin.min.js');
+const bodymovin: any = require('bodymovin/build/player/bodymovin.js');
 
 @Component({
     selector: 'lottie-animation-view',
