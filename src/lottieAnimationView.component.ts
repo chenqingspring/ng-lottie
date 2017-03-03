@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 declare let require: any;
 const bodymovin: any = require('bodymovin/build/player/bodymovin.js');
 
@@ -13,10 +13,12 @@ export class LottieAnimationViewComponent implements OnInit {
     @Input() options: any;
     @Input() width: number;
     @Input() height: number;
+    @Output() animCreated: any = new EventEmitter();
 
     private _options: any;
     private viewWidth: string;
     private viewHeight: string;
+
 
     ngOnInit() {
         this._options = {
@@ -29,6 +31,7 @@ export class LottieAnimationViewComponent implements OnInit {
         };
         this.viewWidth = this.width + 'px' || '100%';
         this.viewHeight = this.height + 'px' || '100%';
-        bodymovin.loadAnimation(this._options);
+        let anim: any = bodymovin.loadAnimation(this._options);
+        this.animCreated.emit(anim);
     }
 }
