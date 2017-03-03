@@ -13,6 +13,7 @@ export class LottieAnimationViewComponent implements OnInit {
     @Input() options: any;
     @Input() width: number;
     @Input() height: number;
+
     private _options: any;
     private viewWidth: string;
     private viewHeight: string;
@@ -21,13 +22,13 @@ export class LottieAnimationViewComponent implements OnInit {
         this._options = {
             container: document.getElementById('lav-container'),
             renderer: 'svg',
-            loop: true,
-            autoplay: true,
+            loop: this.options.loop !== false,
+            autoplay: this.options.autoplay !== false,
+            animationData: this.options.animationData,
             path: this.options.path || ''
         };
         this.viewWidth = this.width + 'px' || '100%';
         this.viewHeight = this.height + 'px' || '100%';
-
         bodymovin.loadAnimation(this._options);
     }
 }
