@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 declare let require: any;
 const bodymovin: any = require('bodymovin/build/player/bodymovin.js');
 
@@ -16,7 +16,7 @@ export class LottieAnimationViewComponent implements OnInit {
 
     @Output() animCreated: any = new EventEmitter();
 
-    @ViewChild('lavContainer') lavContainer: any;
+    @ViewChild('lavContainer') lavContainer: ElementRef;
 
     private _options: any;
     private viewWidth: string;
