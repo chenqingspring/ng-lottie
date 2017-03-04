@@ -1,6 +1,6 @@
 # lottie animation view for angular2
 [![Build Status](https://travis-ci.org/chenqingspring/lottie-angular2.svg?branch=master)](https://travis-ci.org/chenqingspring/lottie-angular2)
-[![npm version](https://badge.fury.io/js/LottieAnimationView.svg)](http://badge.fury.io/js/LottieAnimationView)
+[![npm version](https://badge.fury.io/js/lottie-angular2.svg)](http://badge.fury.io/js/lottie-angular2)
 [![devDependency Status](https://david-dm.org/chenqingspring/lottie-angular2/dev-status.svg)](https://david-dm.org/chenqingspring/lottie-angular2?type=dev)
 [![GitHub issues](https://img.shields.io/github/issues/chenqingspring/lottie-angular2.svg)](https://github.com/chenqingspring/lottie-angular2/issues)
 [![GitHub stars](https://img.shields.io/github/stars/chenqingspring/lottie-angular2.svg)](https://github.com/chenqingspring/lottie-angular2/stargazers)
