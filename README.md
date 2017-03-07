@@ -11,7 +11,6 @@ https://chenqingspring.github.io/lottie-angular2/demo/
 
 ## Table of contents
 
-- [About](#about)
 - [Installation](#installation)
 - [Documentation](#documentation)
 - [Development](#development)
