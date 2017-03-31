@@ -1,24 +1,27 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 var bodymovin = require('bodymovin/build/player/bodymovin.js');
 export var LottieAnimationViewComponent = (function () {
     function LottieAnimationViewComponent() {
+        this.animCreated = new EventEmitter();
     }
     LottieAnimationViewComponent.prototype.ngOnInit = function () {
         this._options = {
-            container: document.getElementById('lav-container'),
+            container: this.lavContainer.nativeElement,
             renderer: 'svg',
-            loop: true,
-            autoplay: true,
+            loop: this.options.loop !== false,
+            autoplay: this.options.autoplay !== false,
+            animationData: this.options.animationData,
             path: this.options.path || ''
         };
         this.viewWidth = this.width + 'px' || '100%';
         this.viewHeight = this.height + 'px' || '100%';
-        bodymovin.loadAnimation(this._options);
+        var anim = bodymovin.loadAnimation(this._options);
+        this.animCreated.emit(anim);
     };
     LottieAnimationViewComponent.decorators = [
         { type: Component, args: [{
                     selector: 'lottie-animation-view',
-                    template: "<div id=\"lav-container\" \n                    [ngStyle]=\"{'width': viewWidth, 'height': viewHeight, 'overflow':'hidden', 'margin': '0 auto'}\">    \n               </div>"
+                    template: "<div #lavContainer \n                    [ngStyle]=\"{'width': viewWidth, 'height': viewHeight, 'overflow':'hidden', 'margin': '0 auto'}\">    \n               </div>"
                 },] },
     ];
     /** @nocollapse */
@@ -27,6 +30,8 @@ export var LottieAnimationViewComponent = (function () {
         'options': [{ type: Input },],
         'width': [{ type: Input },],
         'height': [{ type: Input },],
+        'animCreated': [{ type: Output },],
+        'lavContainer': [{ type: ViewChild, args: ['lavContainer',] },],
     };
     return LottieAnimationViewComponent;
 }());

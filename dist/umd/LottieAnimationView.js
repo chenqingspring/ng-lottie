@@ -131,18 +131,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	var bodymovin = __webpack_require__(5);
 	var LottieAnimationViewComponent = (function () {
 	    function LottieAnimationViewComponent() {
+	        this.animCreated = new core_1.EventEmitter();
 	    }
 	    LottieAnimationViewComponent.prototype.ngOnInit = function () {
 	        this._options = {
-	            container: document.getElementById('lav-container'),
+	            container: this.lavContainer.nativeElement,
 	            renderer: 'svg',
-	            loop: true,
-	            autoplay: true,
+	            loop: this.options.loop !== false,
+	            autoplay: this.options.autoplay !== false,
+	            animationData: this.options.animationData,
 	            path: this.options.path || ''
 	        };
 	        this.viewWidth = this.width + 'px' || '100%';
 	        this.viewHeight = this.height + 'px' || '100%';
-	        bodymovin.loadAnimation(this._options);
+	        var anim = bodymovin.loadAnimation(this._options);
+	        this.animCreated.emit(anim);
 	    };
 	    __decorate([
 	        core_1.Input(), 
@@ -156,14 +159,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	        core_1.Input(), 
 	        __metadata('design:type', Number)
 	    ], LottieAnimationViewComponent.prototype, "height", void 0);
+	    __decorate([
+	        core_1.Output(), 
+	        __metadata('design:type', Object)
+	    ], LottieAnimationViewComponent.prototype, "animCreated", void 0);
+	    __decorate([
+	        core_1.ViewChild('lavContainer'), 
+	        __metadata('design:type', (typeof (_a = typeof core_1.ElementRef !== 'undefined' && core_1.ElementRef) === 'function' && _a) || Object)
+	    ], LottieAnimationViewComponent.prototype, "lavContainer", void 0);
 	    LottieAnimationViewComponent = __decorate([
 	        core_1.Component({
 	            selector: 'lottie-animation-view',
-	            template: "<div id=\"lav-container\" \n                    [ngStyle]=\"{'width': viewWidth, 'height': viewHeight, 'overflow':'hidden', 'margin': '0 auto'}\">    \n               </div>"
+	            template: "<div #lavContainer \n                    [ngStyle]=\"{'width': viewWidth, 'height': viewHeight, 'overflow':'hidden', 'margin': '0 auto'}\">    \n               </div>"
 	        }), 
 	        __metadata('design:paramtypes', [])
 	    ], LottieAnimationViewComponent);
 	    return LottieAnimationViewComponent;
+	    var _a;
 	}());
 	exports.LottieAnimationViewComponent = LottieAnimationViewComponent;
 
@@ -212,7 +224,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return Math.abs(val);
 	
 	}
-	var defaultCurveSegments = 75;
+	var defaultCurveSegments = 150;
 	var degToRads = Math.PI/180;
 	var roundCorner = 0.5519;
 	
@@ -2679,160 +2691,111 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.lastFrame = initFrame;
 	    }
 	
-	    var TransformProperty = (function(){
-	        function positionGetter(){
-	            if(this.p.k){
-	                this.p.getValue();
-	            }
-	            if(!this.p.v.key){
-	                this.p.v.key = function(pos){
-	                    if(!this.p.v.numKeys){
-	                        return 0;
-	                    } else {
-	                        return this.p.keyframes[pos-1].t;
-	                    }
-	                }.bind(this);
-	            }
-	            if(!this.p.v.numKeys){
-	                this.p.v.numKeys = this.p.keyframes ? this.p.keyframes.length : 0;
-	            }
-	            if(!this.p.v.valueAtTime){
-	                this.p.v.valueAtTime = this.p.getValueAtTime.bind(this.p);
-	            }
-	            return this.p.v;
+	    var TransformProperty = (function() {
+	        function positionGetter() {
+	            return ExpressionValue(this.p);
 	        }
-	        function xPositionGetter(){
-	            if(this.px.k){
-	                this.px.getValue();
-	            }
-	            return this.px.v;
+	        function xPositionGetter() {
+	            return ExpressionValue(this.px);
 	        }
-	        function yPositionGetter(){
-	            if(this.py.k){
-	                this.py.getValue();
-	            }
-	            return this.py.v;
+	        function yPositionGetter() {
+	            return ExpressionValue(this.py);
 	        }
-	        function zPositionGetter(){
-	            if(this.pz.k){
-	                this.pz.getValue();
-	            }
-	            return this.pz.v;
+	        function zPositionGetter() {
+	            return ExpressionValue(this.pz);
 	        }
-	        function anchorGetter(){
-	            if(this.a.k){
-	                this.a.getValue();
-	            }
-	            return this.a.v;
+	        function anchorGetter() {
+	            return ExpressionValue(this.a);
 	        }
-	        function orientationGetter(){
-	            if(this.or.k){
-	                this.or.getValue();
-	            }
-	            return this.or.v;
+	        function orientationGetter() {
+	            return ExpressionValue(this.or);
 	        }
-	        function rotationGetter(){
-	            if(this.r.k){
-	                this.r.getValue();
-	            }
-	            return this.r.v/degToRads;
+	        function rotationGetter() {
+	            return ExpressionValue(this.r, 1/degToRads);
 	        }
-	        function scaleGetter(){
-	            if(this.s.k){
-	                this.s.getValue();
-	            }
-	            return this.s.v;
+	        function scaleGetter() {
+	            return ExpressionValue(this.s, 100);
 	        }
-	        function opacityGetter(){
-	            if(this.o.k){
-	                this.o.getValue();
-	            }
-	            return this.o.v;
+	        function opacityGetter() {
+	            return ExpressionValue(this.o, 100);
 	        }
-	        function skewGetter(){
-	            if(this.sk.k){
-	                this.sk.getValue();
-	            }
-	            return this.sk.v;
+	        function skewGetter() {
+	            return ExpressionValue(this.sk);
 	        }
-	        function skewAxisGetter(){
-	            if(this.sa.k){
-	                this.sa.getValue();
-	            }
-	            return this.sa.v;
+	        function skewAxisGetter() {
+	            return ExpressionValue(this.sa);
 	        }
-	        function applyToMatrix(mat){
+	        function applyToMatrix(mat) {
 	            var i, len = this.dynamicProperties.length;
-	            for(i=0;i<len;i+=1){
+	            for(i = 0; i < len; i += 1) {
 	                this.dynamicProperties[i].getValue();
-	                if(this.dynamicProperties[i].mdf){
+	                if (this.dynamicProperties[i].mdf) {
 	                    this.mdf = true;
 	                }
 	            }
-	            if(this.a){
-	                mat.translate(-this.a.v[0],-this.a.v[1],this.a.v[2]);
+	            if (this.a) {
+	                mat.translate(-this.a.v[0], -this.a.v[1], this.a.v[2]);
 	            }
-	            if(this.s){
-	                mat.scale(this.s.v[0],this.s.v[1],this.s.v[2]);
+	            if (this.s) {
+	                mat.scale(this.s.v[0], this.s.v[1], this.s.v[2]);
 	            }
-	            if(this.r){
+	            if (this.r) {
 	                mat.rotate(-this.r.v);
-	            }else{
+	            } else {
 	                mat.rotateZ(-this.rz.v).rotateY(this.ry.v).rotateX(this.rx.v).rotateZ(-this.or.v[2]).rotateY(this.or.v[1]).rotateX(this.or.v[0]);
 	            }
-	            if(this.data.p.s){
-	                if(this.data.p.z) {
+	            if (this.data.p.s) {
+	                if (this.data.p.z) {
 	                    mat.translate(this.px.v, this.py.v, -this.pz.v);
 	                } else {
 	                    mat.translate(this.px.v, this.py.v, 0);
 	                }
-	            }else{
-	                mat.translate(this.p.v[0],this.p.v[1],-this.p.v[2]);
+	            } else {
+	                mat.translate(this.p.v[0], this.p.v[1], -this.p.v[2]);
 	            }
 	        }
 	        function processKeys(){
-	            if(this.elem.globalData.frameId === this.frameId){
+	            if (this.elem.globalData.frameId === this.frameId) {
 	                return;
 	            }
 	
 	            this.mdf = false;
 	            var i, len = this.dynamicProperties.length;
 	
-	            for(i=0;i<len;i+=1){
+	            for(i = 0; i < len; i += 1) {
 	                this.dynamicProperties[i].getValue();
-	                if(this.dynamicProperties[i].mdf){
+	                if (this.dynamicProperties[i].mdf) {
 	                    this.mdf = true;
 	                }
 	            }
-	            if(this.mdf){
+	            if (this.mdf) {
 	                this.v.reset();
-	                if(this.a){
-	                    this.v.translate(-this.a.v[0],-this.a.v[1],this.a.v[2]);
+	                if (this.a) {
+	                    this.v.translate(-this.a.v[0], -this.a.v[1], this.a.v[2]);
 	                }
-	                if(this.s){
-	                    this.v.scale(this.s.v[0],this.s.v[1],this.s.v[2]);
+	                if(this.s) {
+	                    this.v.scale(this.s.v[0], this.s.v[1], this.s.v[2]);
 	                }
-	                if(this.sk){
-	                    this.v.skewFromAxis(-this.sk.v,this.sa.v);
+	                if (this.sk) {
+	                    this.v.skewFromAxis(-this.sk.v, this.sa.v);
 	                }
-	                if(this.r){
+	                if (this.r) {
 	                    this.v.rotate(-this.r.v);
-	                }else{
+	                } else {
 	                    this.v.rotateZ(-this.rz.v).rotateY(this.ry.v).rotateX(this.rx.v).rotateZ(-this.or.v[2]).rotateY(this.or.v[1]).rotateX(this.or.v[0]);
 	                }
-	                if(this.autoOriented && this.p.keyframes && this.p.getValueAtTime){
+	                if (this.autoOriented && this.p.keyframes && this.p.getValueAtTime) {
 	                    var v1,v2;
-	                    if(this.p.lastFrame+this.p.offsetTime < this.p.keyframes[0].t){
-	                        v1 = this.p.getValueAtTime(this.p.keyframes[0].t+0.01,0);
-	                        v2 = this.p.getValueAtTime(this.p.keyframes[0].t, 0);
-	                    }else if(this.p.lastFrame+this.p.offsetTime > this.p.keyframes[this.p.keyframes.length - 1].t){
-	                        v1 = this.p.getValueAtTime(this.p.keyframes[this.p.keyframes.length - 1].t,0);
-	                        v2 = this.p.getValueAtTime(this.p.keyframes[this.p.keyframes.length - 1].t-0.01, 0);
+	                    if (this.p.lastFrame+this.p.offsetTime <= this.p.keyframes[0].t) {
+	                        v1 = this.p.getValueAtTime((this.p.keyframes[0].t + 0.01) / this.elem.globalData.frameRate,0);
+	                        v2 = this.p.getValueAtTime(this.p.keyframes[0].t / this.elem.globalData.frameRate, 0);
+	                    } else if(this.p.lastFrame+this.p.offsetTime >= this.p.keyframes[this.p.keyframes.length - 1].t) {
+	                        v1 = this.p.getValueAtTime((this.p.keyframes[this.p.keyframes.length - 1].t / this.elem.globalData.frameRate), 0);
+	                        v2 = this.p.getValueAtTime((this.p.keyframes[this.p.keyframes.length - 1].t - 0.01) / this.elem.globalData.frameRate, 0);
 	                    } else {
 	                        v1 = this.p.pv;
-	                        v2 = this.p.getValueAtTime(this.p.lastFrame+this.p.offsetTime - 0.01, this.p.offsetTime);
+	                        v2 = this.p.getValueAtTime((this.p.lastFrame+this.p.offsetTime - 0.01) / this.elem.globalData.frameRate, this.p.offsetTime);
 	                    }
-	                    //var prevV = this.p.getValueAtTime(this.p.lastFrame - 0.01, true);
 	                    this.v.rotate(-Math.atan2(v1[1] - v2[1], v1[0] - v2[0]));
 	                }
 	                if(this.data.p.s){
@@ -2845,6 +2808,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    this.v.translate(this.p.v[0],this.p.v[1],-this.p.v[2]);
 	                }
 	            }
+	            //console.log(this.v.to2dCSS())
 	            this.frameId = this.elem.globalData.frameId;
 	        }
 	
@@ -2879,6 +2843,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return function TransformProperty(elem,data,arr){
 	            this.elem = elem;
 	            this.frameId = -1;
+	            this.type = 'transform';
 	            this.dynamicProperties = [];
 	            this.mdf = false;
 	            this.data = data;
@@ -2902,7 +2867,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                this.rx = PropertyFactory.getProp(elem, data.rx, 0, degToRads, this.dynamicProperties);
 	                this.ry = PropertyFactory.getProp(elem, data.ry, 0, degToRads, this.dynamicProperties);
 	                this.rz = PropertyFactory.getProp(elem, data.rz, 0, degToRads, this.dynamicProperties);
-	                this.or = PropertyFactory.getProp(elem, data.or, 0, degToRads, this.dynamicProperties);
+	                this.or = PropertyFactory.getProp(elem, data.or, 1, degToRads, this.dynamicProperties);
 	            }
 	            if(data.sk){
 	                this.sk = PropertyFactory.getProp(elem, data.sk, 0, degToRads, this.dynamicProperties);
@@ -3259,6 +3224,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	    ob.getGradientProp = getGradientProp;
 	    return ob;
 	}());
+	var shape_helper = (function(){
+	
+		function clone(shape){
+			var i, len = shape.v.length;
+			var cloned = {
+				c: shape.c,
+				i: Array.call({length:len}),
+				o: Array.call({length:len}),
+				v: Array.call({length:len})
+			}
+			for(i = 0; i < len; i += 1) {
+				cloned.v[i] = [shape.v[i][0],shape.v[i][1]]
+				cloned.o[i] = [shape.o[i][0],shape.o[i][1]]
+				cloned.i[i] = [shape.i[i][0],shape.i[i][1]]
+			}
+			return cloned
+	
+		}
+	
+		return {
+			clone: clone
+		}
+	}())
 	var ShapePropertyFactory = (function(){
 	
 	    var initFrame = -999999;
@@ -4468,9 +4456,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	                this.addPendingElement(element);
 	            } else if(layers[i].parent !== undefined){
 	                hierarchy.push(elements[i]);
+	                elements[i]._isParent = true;
 	                this.buildElementParenting(element,layers[i].parent, hierarchy);
 	            } else {
 	                hierarchy.push(elements[i]);
+	                elements[i]._isParent = true;
 	                element.setHierarchy(hierarchy);
 	            }
 	
@@ -4548,10 +4538,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.globalData.getAssetsPath = this.animationItem.getAssetsPath.bind(this.animationItem);
 	    this.globalData.progressiveLoad = this.renderConfig.progressiveLoad;
 	    this.globalData.frameId = 0;
+	    this.globalData.nm = animData.nm;
 	    this.globalData.compSize = {
 	        w: animData.w,
 	        h: animData.h
 	    };
+	    this.data = animData;
 	    this.globalData.frameRate = animData.fr;
 	    var maskElement = document.createElementNS(svgNS, 'clipPath');
 	    var rect = document.createElementNS(svgNS,'rect');
@@ -4741,8 +4733,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if((properties[i].mode == 's' || properties[i].mode == 'i') && count == 0){
 	            rect = document.createElementNS(svgNS, 'rect');
 	            rect.setAttribute('fill', '#ffffff');
-	            rect.setAttribute('width', this.element.comp.data ? this.element.comp.data.w : this.element.globalData.compSize.w);
-	            rect.setAttribute('height', this.element.comp.data ? this.element.comp.data.h : this.element.globalData.compSize.h);
+	            rect.setAttribute('width', this.element.comp.data.w);
+	            rect.setAttribute('height', this.element.comp.data.h);
 	            currentMasks.push(rect);
 	        } else {
 	            rect = null;
@@ -4912,14 +4904,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 	
 	MaskElement.prototype.drawPath = function(pathData,pathNodes,viewData){
-	    var pathString = '';
+	    var pathString = " M"+pathNodes.v[0][0]+','+pathNodes.v[0][1];
 	    var i, len;
 	    len = pathNodes.v.length;
 	    for(i=1;i<len;i+=1){
-	        if(i==1){
-	            //pathString += " M"+pathNodes.v[0][0]+','+pathNodes.v[0][1];
-	            pathString += " M"+bm_rnd(pathNodes.v[0][0])+','+bm_rnd(pathNodes.v[0][1]);
-	        }
 	        //pathString += " C"+pathNodes.o[i-1][0]+','+pathNodes.o[i-1][1] + " "+pathNodes.i[i][0]+','+pathNodes.i[i][1] + " "+pathNodes.v[i][0]+','+pathNodes.v[i][1];
 	        pathString += " C"+bm_rnd(pathNodes.o[i-1][0])+','+bm_rnd(pathNodes.o[i-1][1]) + " "+bm_rnd(pathNodes.i[i][0])+','+bm_rnd(pathNodes.i[i][1]) + " "+bm_rnd(pathNodes.v[i][0])+','+bm_rnd(pathNodes.v[i][1]);
 	    }
@@ -5007,15 +4995,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    var i, len = this.dynamicProperties.length;
 	    for(i=0;i<len;i+=1){
-	        this.dynamicProperties[i].getValue();
-	        if(this.dynamicProperties[i].mdf){
-	            this.elemMdf = true;
-	            this.globalData.mdf = true;
+	        if(this.isVisible || (this._isParent && this.dynamicProperties[i].type === 'transform')){
+	            this.dynamicProperties[i].getValue();
+	            if(this.dynamicProperties[i].mdf){
+	                this.elemMdf = true;
+	                this.globalData.mdf = true;
+	            }
 	        }
 	    }
-	    if(this.data.hasMask){
+	    if(this.data.hasMask && this.isVisible){
 	        this.maskManager.prepareFrame(num*this.data.sr);
 	    }
+	    
 	    /* TODO check this
 	    if(this.data.sy){
 	        if(this.data.sy[0].renderedData[num]){
@@ -5072,6 +5063,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.compInterface = CompExpressionInterface(this);
 	    } else if(this.data.ty === 4){
 	        this.layerInterface.shapeInterface = ShapeExpressionInterface.createShapeInterface(this.shapesData,this.viewData,this.layerInterface);
+	    } else if(this.data.ty === 5){
+	        this.layerInterface.textInterface = TextExpressionInterface(this);
 	    }
 	}
 	
@@ -5142,6 +5135,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.hidden = false;
 	    this.firstFrame = true;
 	    this.isVisible = false;
+	    this._isParent = false;
 	    this.currentFrameNum = -99999;
 	    this.lastNum = -99999;
 	    if(this.data.ks){
@@ -5270,8 +5264,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            feCTr.appendChild(feFunc);*/
 	            this.globalData.defs.appendChild(fil);
 	            var alphaRect = document.createElementNS(svgNS,'rect');
-	            alphaRect.setAttribute('width',this.comp.data ? this.comp.data.w : this.globalData.compSize.w);
-	            alphaRect.setAttribute('height',this.comp.data ? this.comp.data.h : this.globalData.compSize.h);
+	            alphaRect.setAttribute('width',this.comp.data.w);
+	            alphaRect.setAttribute('height',this.comp.data.h);
 	            alphaRect.setAttribute('x','0');
 	            alphaRect.setAttribute('y','0');
 	            alphaRect.setAttribute('fill','#ffffff');
@@ -5415,52 +5409,47 @@ return /******/ (function(modules) { // webpackBootstrap
 	SVGBaseElement.prototype.setBlendMode = BaseElement.prototype.setBlendMode;
 	
 	SVGBaseElement.prototype.renderFrame = function(parentTransform){
-	    if(this.data.ty === 3 || this.data.hd){
+	    if(this.data.ty === 3 || this.data.hd || !this.isVisible){
 	        return false;
 	    }
 	
-	    if(!this.isVisible){
-	        return this.isVisible;
-	    }
 	    this.lastNum = this.currentFrameNum;
-	    this.finalTransform.opMdf = this.finalTransform.op.mdf;
-	    this.finalTransform.matMdf = this.finalTransform.mProp.mdf;
+	    this.finalTransform.opMdf = this.firstFrame || this.finalTransform.op.mdf;
+	    this.finalTransform.matMdf = this.firstFrame || this.finalTransform.mProp.mdf;
 	    this.finalTransform.opacity = this.finalTransform.op.v;
-	    if(this.firstFrame){
-	        this.finalTransform.opMdf = true;
-	        this.finalTransform.matMdf = true;
-	    }
 	
 	    var mat;
 	    var finalMat = this.finalTransform.mat;
 	
 	    if(this.hierarchy){
-	        var i, len = this.hierarchy.length;
-	
-	        mat = this.finalTransform.mProp.v.props;
-	        finalMat.cloneFromProps(mat);
-	        for(i=0;i<len;i+=1){
-	            this.finalTransform.matMdf = this.hierarchy[i].finalTransform.mProp.mdf ? true : this.finalTransform.matMdf;
-	            mat = this.hierarchy[i].finalTransform.mProp.v.props;
-	            finalMat.transform(mat[0],mat[1],mat[2],mat[3],mat[4],mat[5],mat[6],mat[7],mat[8],mat[9],mat[10],mat[11],mat[12],mat[13],mat[14],mat[15]);
+	        var i = 0, len = this.hierarchy.length;
+	        if(!this.finalTransform.matMdf) {
+	            while(i < len) {
+	                if(this.hierarchy[i].finalTransform.mProp.mdf) {
+	                    this.finalTransform.matMdf = true;
+	                    break;
+	                }
+	                i += 1;
+	            }
 	        }
-	    }else{
-	        if(this.isVisible){
-	            finalMat.cloneFromProps(this.finalTransform.mProp.v.props);
+	        
+	        if(this.finalTransform.matMdf) {
+	            mat = this.finalTransform.mProp.v.props;
+	            finalMat.cloneFromProps(mat);
+	            for(i=0;i<len;i+=1){
+	                mat = this.hierarchy[i].finalTransform.mProp.v.props;
+	                finalMat.transform(mat[0],mat[1],mat[2],mat[3],mat[4],mat[5],mat[6],mat[7],mat[8],mat[9],mat[10],mat[11],mat[12],mat[13],mat[14],mat[15]);
+	            }
 	        }
-	    }
-	    if(parentTransform){
-	        mat = parentTransform.mat.props;
-	        finalMat.transform(mat[0],mat[1],mat[2],mat[3],mat[4],mat[5],mat[6],mat[7],mat[8],mat[9],mat[10],mat[11],mat[12],mat[13],mat[14],mat[15]);
-	        this.finalTransform.opacity *= parentTransform.opacity;
-	        this.finalTransform.opMdf = parentTransform.opMdf ? true : this.finalTransform.opMdf;
-	        this.finalTransform.matMdf = parentTransform.matMdf ? true : this.finalTransform.matMdf;
+	        
+	    }else if(this.isVisible){
+	        finalMat = this.finalTransform.mProp.v;
 	    }
 	    if(this.finalTransform.matMdf && this.layerElement){
 	        this.transformedElement.setAttribute('transform',finalMat.to2dCSS());
 	    }
 	    if(this.finalTransform.opMdf && this.layerElement){
-	        this.transformedElement.setAttribute('opacity',this.finalTransform.opacity);
+	        this.transformedElement.setAttribute('opacity',this.finalTransform.op.v);
 	    }
 	
 	    if(this.data.hasMask){
@@ -6594,6 +6583,93 @@ return /******/ (function(modules) { // webpackBootstrap
 	        
 	    }
 	};
+	function SVGDropShadowEffect(filter, filterManager){
+	    /*<feGaussianBlur in="SourceAlpha" stdDeviation="3"/> <!-- stdDeviation is how much to blur -->
+	  <feOffset dx="2" dy="2" result="offsetblur"/> <!-- how much to offset -->
+	  <feMerge> 
+	    <feMergeNode/> <!-- this contains the offset blurred image -->
+	    <feMergeNode in="SourceGraphic"/> <!-- this contains the element that the filter is applied to -->
+	  </feMerge>*/
+	  /*<feFlood flood-color="#3D4574" flood-opacity="0.5" result="offsetColor"/>*/
+	    filter.setAttribute('x','-100%');
+	    filter.setAttribute('y','-100%');
+	    filter.setAttribute('width','400%');
+	    filter.setAttribute('height','400%');
+	    this.filterManager = filterManager;
+	
+	    var feGaussianBlur = document.createElementNS(svgNS,'feGaussianBlur');
+	    feGaussianBlur.setAttribute('in','SourceAlpha');
+	    feGaussianBlur.setAttribute('result','drop_shadow_1');
+	    feGaussianBlur.setAttribute('stdDeviation','0');
+	    this.feGaussianBlur = feGaussianBlur;
+	    filter.appendChild(feGaussianBlur);
+	
+	    var feOffset = document.createElementNS(svgNS,'feOffset');
+	    feOffset.setAttribute('dx','25');
+	    feOffset.setAttribute('dy','0');
+	    feOffset.setAttribute('in','drop_shadow_1');
+	    feOffset.setAttribute('result','drop_shadow_2');
+	    this.feOffset = feOffset;
+	    filter.appendChild(feOffset);
+	    var feFlood = document.createElementNS(svgNS,'feFlood');
+	    feFlood.setAttribute('flood-color','#00ff00');
+	    feFlood.setAttribute('flood-opacity','1');
+	    feFlood.setAttribute('result','drop_shadow_3');
+	    this.feFlood = feFlood;
+	    filter.appendChild(feFlood);
+	
+	    var feComposite = document.createElementNS(svgNS,'feComposite');
+	    feComposite.setAttribute('in','drop_shadow_3');
+	    feComposite.setAttribute('in2','drop_shadow_2');
+	    feComposite.setAttribute('operator','in');
+	    feComposite.setAttribute('result','drop_shadow_4');
+	    filter.appendChild(feComposite);
+	
+	
+	    var feMerge = document.createElementNS(svgNS,'feMerge');
+	    filter.appendChild(feMerge);
+	    var feMergeNode;
+	    feMergeNode = document.createElementNS(svgNS,'feMergeNode');
+	    feMerge.appendChild(feMergeNode);
+	    feMergeNode = document.createElementNS(svgNS,'feMergeNode');
+	    feMergeNode.setAttribute('in','SourceGraphic');
+	    this.feMergeNode = feMergeNode;
+	    this.feMerge = feMerge;
+	    this.originalNodeAdded = false;
+	    feMerge.appendChild(feMergeNode);
+	}
+	
+	SVGDropShadowEffect.prototype.renderFrame = function(forceRender){
+	    if(forceRender || this.filterManager.mdf){
+	        if(forceRender || this.filterManager.effectElements[4].p.mdf){
+	            this.feGaussianBlur.setAttribute('stdDeviation', this.filterManager.effectElements[4].p.v / 4);
+	        }
+	        if(forceRender || this.filterManager.effectElements[0].p.mdf){
+	            var col = this.filterManager.effectElements[0].p.v;
+	            this.feFlood.setAttribute('flood-color',rgbToHex(Math.round(col[0]*255),Math.round(col[1]*255),Math.round(col[2]*255)));
+	        }
+	        if(forceRender || this.filterManager.effectElements[1].p.mdf){
+	            this.feFlood.setAttribute('flood-opacity',this.filterManager.effectElements[1].p.v/255);
+	        }
+	        if(forceRender || this.filterManager.effectElements[2].p.mdf || this.filterManager.effectElements[3].p.mdf){
+	            var distance = this.filterManager.effectElements[3].p.v
+	            var angle = (this.filterManager.effectElements[2].p.v - 90) * degToRads
+	            var x = distance * Math.cos(angle)
+	            var y = distance * Math.sin(angle)
+	            this.feOffset.setAttribute('dx', x);
+	            this.feOffset.setAttribute('dy', y);
+	        }
+	        /*if(forceRender || this.filterManager.effectElements[5].p.mdf){
+	            if(this.filterManager.effectElements[5].p.v === 1 && this.originalNodeAdded) {
+	                this.feMerge.removeChild(this.feMergeNode);
+	                this.originalNodeAdded = false;
+	            } else if(this.filterManager.effectElements[5].p.v === 0 && !this.originalNodeAdded) {
+	                this.feMerge.appendChild(this.feMergeNode);
+	                this.originalNodeAdded = true;
+	            }
+	        }*/
+	    }
+	};
 	function SVGEffects(elem){
 	    var i, len = elem.data.ef.length;
 	    var filId = randomString(10);
@@ -6620,6 +6696,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }else if(elem.data.ef[i].ty === 24){
 	            count += 1;
 	            filterManager = new SVGProLevelsFilter(fil, elem.effects.effectElements[i]);
+	            this.filters.push(filterManager);
+	        }else if(elem.data.ef[i].ty === 25){
+	            count += 1;
+	            filterManager = new SVGDropShadowEffect(fil, elem.effects.effectElements[i]);
 	            this.filters.push(filterManager);
 	        }
 	    }
@@ -6957,6 +7037,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	                data[i].elem = pathElement;
 	                container.appendChild(pathElement);
 	            }
+	            if(arr[i].r === 2) {
+	                pathElement.setAttribute('fill-rule', 'evenodd');
+	            }
 	
 	            if(arr[i].ln){
 	                pathElement.setAttribute('id',arr[i].ln);
@@ -6975,7 +7058,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var g = document.createElementNS(svgNS,'g');
 	            container.appendChild(g);
 	            data[i].gr = g;
-	            this.searchShapes(arr[i].it,data[i].it,g,dynamicProperties, level + 1, transformers);
+	            this.searchShapes(arr[i].it,data[i].it,g,dynamicProperties, level + 1, ownTransformers);
 	        }else if(arr[i].ty == 'tr'){
 	            data[i] = {
 	                transform : {
@@ -7160,16 +7243,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var lvl = viewData.lvl;
 	    for(l=0;l<lLen;l+=1){
 	        redraw = viewData.sh.mdf || this.firstFrame;
-	        pathStringTransformed = '';
+	        pathStringTransformed = 'M0 0';
 	        var paths = viewData.sh.paths;
 	        jLen = paths.length;
 	        if(viewData.elements[l].st.lvl < lvl){
 	            var mat = this.mHelper.reset(), props;
-	            var k;
-	            for(k=viewData.transformers.length-1;k>=0;k-=1){
+	            var iterations = lvl - viewData.elements[l].st.lvl;
+	            var k = viewData.transformers.length-1;
+	            while(iterations > 0) {
 	                redraw = viewData.transformers[k].mProps.mdf || redraw;
 	                props = viewData.transformers[k].mProps.v.props;
 	                mat.transform(props[0],props[1],props[2],props[3],props[4],props[5],props[6],props[7],props[8],props[9],props[10],props[11],props[12],props[13],props[14],props[15]);
+	                iterations --;
+	                k --;
 	            }
 	            if(redraw){
 	                for(j=0;j<jLen;j+=1){
@@ -8407,6 +8493,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }else{
 	        this.canvasContext = this.renderConfig.context;
 	    }
+	    this.data = animData;
 	    this.globalData.canvasContext = this.canvasContext;
 	    this.globalData.renderer = this;
 	    this.globalData.isDashed = false;
@@ -8781,6 +8868,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var defs = document.createElementNS(svgNS,'defs');
 	    svg.appendChild(defs);
 	    this.globalData.defs = defs;
+	    this.data = animData;
 	    //Mask animation
 	    this.globalData.getAssetData = this.animationItem.getAssetData.bind(this.animationItem);
 	    this.globalData.getAssetsPath = this.animationItem.getAssetsPath.bind(this.animationItem);
@@ -9399,6 +9487,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    }
 	                }
 	
+	            } else {
+	
+	                styleElem.r = arr[i].r === 2 ? 'evenodd' : 'nonzero';
 	            }
 	            this.stylesList.push(styleElem);
 	            data[i].style = styleElem;
@@ -9592,7 +9683,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	        }
 	        if(type !== 'st'){
-	            ctx.fill();
+	            ctx.fill(this.stylesList[i].r);
 	        }
 	        renderer.restore();
 	    }
@@ -10376,8 +10467,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var cont = document.createElementNS(svgNS,'svg');
 	        styleDiv(cont);
 	        this.cont = cont;
-	        this.compW = this.comp.data ? this.comp.data.w : this.globalData.compSize.w;
-	        this.compH = this.comp.data ? this.comp.data.h : this.globalData.compSize.h;
+	        this.compW = this.comp.data.w;
+	        this.compH = this.comp.data.h;
 	        cont.setAttribute('width',this.compW);
 	        cont.setAttribute('height',this.compH);
 	        var g = document.createElementNS(svgNS,'g');
@@ -10787,13 +10878,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	expressionsPlugin = Expressions;
 	
-	(function addPropertyDecorator(){
+	(function addPropertyDecorator() {
 	
-	    function getStaticValueAtTime(){
+	    function getStaticValueAtTime() {
 	        return this.pv;
 	    }
 	
 	    function getValueAtTime(frameNum, offsetTime) {
+	        frameNum *= this.elem.globalData.frameRate;
 	        var i = 0,len = this.keyframes.length- 1,dir= 1,flag = true;
 	        var keyData, nextKeyData;
 	        offsetTime = offsetTime === undefined ? this.offsetTime : 0;
@@ -10820,58 +10912,58 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	
 	        var k, kLen,perc,jLen, j = 0, fnc;
-	        if(keyData.to){
+	        if (keyData.to) {
 	
-	            if(!keyData.bezierData){
+	            if (!keyData.bezierData) {
 	                bez.buildBezierData(keyData);
 	            }
 	            var bezierData = keyData.bezierData;
-	            if(frameNum >= nextKeyData.t-offsetTime || frameNum < keyData.t-offsetTime){
+	            if (frameNum >= nextKeyData.t-offsetTime || frameNum < keyData.t-offsetTime) {
 	                var ind = frameNum >= nextKeyData.t-offsetTime ? bezierData.points.length - 1 : 0;
 	                kLen = bezierData.points[ind].point.length;
 	                for(k = 0; k < kLen; k += 1){
 	                    retVal[k] = bezierData.points[ind].point[k];
 	                }
-	            }else{
-	                if(keyData.__fnct){
+	            } else {
+	                if (keyData.__fnct) {
 	                    fnc = keyData.__fnct;
-	                }else{
+	                } else {
 	                    //fnc = bez.getEasingCurve(keyData.o.x,keyData.o.y,keyData.i.x,keyData.i.y,keyData.n);
-	                    fnc = BezierFactory.getBezierEasing(keyData.o.x,keyData.o.y,keyData.i.x,keyData.i.y,keyData.n).get;
+	                    fnc = BezierFactory.getBezierEasing(keyData.o.x, keyData.o.y, keyData.i.x, keyData.i.y, keyData.n).get;
 	                    keyData.__fnct = fnc;
 	                }
-	                perc = fnc((frameNum-(keyData.t-offsetTime))/((nextKeyData.t-offsetTime)-(keyData.t-offsetTime)));
-	                var distanceInLine = bezierData.segmentLength*perc;
+	                perc = fnc((frameNum - (keyData.t - offsetTime)) / ((nextKeyData.t - offsetTime) - (keyData.t - offsetTime)));
+	                var distanceInLine = bezierData.segmentLength * perc;
 	
 	                var segmentPerc;
 	                var addedLength = 0;
 	                dir = 1;
 	                flag = true;
 	                jLen = bezierData.points.length;
-	                while(flag){
-	                    addedLength +=bezierData.points[j].partialLength*dir;
-	                    if(distanceInLine === 0 || perc === 0 || j == bezierData.points.length - 1){
+	                while(flag) {
+	                    addedLength += bezierData.points[j].partialLength*dir;
+	                    if (distanceInLine === 0 || perc === 0 || j == bezierData.points.length - 1) {
 	                        kLen = bezierData.points[j].point.length;
-	                        for(k=0;k<kLen;k+=1){
+	                        for (k = 0; k < kLen; k += 1) {
 	                            retVal[k] = bezierData.points[j].point[k];
 	                        }
 	                        break;
-	                    }else if(distanceInLine >= addedLength && distanceInLine < addedLength + bezierData.points[j+1].partialLength){
-	                        segmentPerc = (distanceInLine-addedLength)/(bezierData.points[j+1].partialLength);
+	                    } else if (distanceInLine >= addedLength && distanceInLine < addedLength + bezierData.points[j+1].partialLength){
+	                        segmentPerc = (distanceInLine - addedLength) / (bezierData.points[j + 1].partialLength);
 	                        kLen = bezierData.points[j].point.length;
-	                        for(k=0;k<kLen;k+=1){
-	                            retVal[k] = bezierData.points[j].point[k] + (bezierData.points[j+1].point[k] - bezierData.points[j].point[k])*segmentPerc;
+	                        for (k = 0; k < kLen; k += 1) {
+	                            retVal[k] = bezierData.points[j].point[k] + (bezierData.points[j+1].point[k] - bezierData.points[j].point[k]) * segmentPerc;
 	                        }
 	                        break;
 	                    }
-	                    if(j < jLen - 1 && dir == 1 || j > 0 && dir == -1){
+	                    if (j < jLen - 1 && dir == 1 || j > 0 && dir == -1) {
 	                        j += dir;
-	                    }else{
+	                    } else {
 	                        flag = false;
 	                    }
 	                }
 	            }
-	        }else{
+	        } else {
 	            var outX,outY,inX,inY, isArray = false, keyValue;
 	            len = keyData.s.length;
 	            for(i=0;i<len;i+=1){
@@ -10948,10 +11040,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return this.vel;
 	        }
 	        var delta = -0.01;
-	        frameNum *= this.elem.globalData.frameRate;
 	        //frameNum += this.elem.data.st;
-	        var v1 = this.getValueAtTime(frameNum,0);
-	        var v2 = this.getValueAtTime(frameNum + delta,0);
+	        var v1 = this.getValueAtTime(frameNum, 0);
+	        var v2 = this.getValueAtTime(frameNum + delta, 0);
 	        var velocity;
 	        if(v1.length){
 	            velocity = Array.apply(null,{length:v1.length});
@@ -11002,9 +11093,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	            this.getMult = getValueProxy;
 	            this.getVelocityAtTime = getVelocityAtTime;
 	            if(this.kf){
-	                this.getValueAtTime = getValueAtTime;
+	                this.getValueAtTime = getValueAtTime.bind(this);
 	            } else {
-	                this.getValueAtTime = getStaticValueAtTime;
+	                this.getValueAtTime = getStaticValueAtTime.bind(this);
 	            }
 	            this.setGroupProperty = setGroupProperty;
 	        }
@@ -11016,9 +11107,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var prop = propertyGetProp(elem,data,type, mult, arr);
 	        prop.getVelocityAtTime = getVelocityAtTime;
 	        if(prop.kf){
-	            prop.getValueAtTime = getValueAtTime;
+	            prop.getValueAtTime = getValueAtTime.bind(prop);
 	        } else {
-	            prop.getValueAtTime = getStaticValueAtTime;
+	            prop.getValueAtTime = getStaticValueAtTime.bind(prop);
 	        }
 	        prop.setGroupProperty = setGroupProperty;
 	        var isAdded = prop.k;
@@ -11041,6 +11132,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    ShapePropertyFactory.getShapeProp = function(elem,data,type, arr, trims){
 	        var prop = propertyGetShapeProp(elem,data,type, arr, trims);
 	        prop.setGroupProperty = setGroupProperty;
+	        if(prop.kf){
+	            prop.getValueAtTime = getValueAtTime;
+	        } else {
+	            prop.getValueAtTime = getStaticValueAtTime;
+	        }
 	        var isAdded = prop.k;
 	        if(data.ix !== undefined){
 	            Object.defineProperty(prop,'propertyIndex',{
@@ -11076,7 +11172,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function duplicatePropertyValue(value, mult){
 	        mult = mult || 1;
 	
-	        if(typeof value === 'number'){
+	        if(typeof value === 'number'  || value instanceof Number){
 	            return value*mult;
 	        }else if(value.i){
 	            return JSON.parse(JSON.stringify(value));
@@ -11092,10 +11188,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    function $bm_neg(a){
 	        var tOfA = typeof a;
-	        if(tOfA === 'number' || tOfA === 'boolean'){
+	        if(tOfA === 'number' || tOfA === 'boolean'  || a instanceof Number ){
 	            return -a;
 	        }
-	        if(tOfA === 'object'){
+	        if(a.constructor === Array){
 	            var i, lenA = a.length;
 	            var retArr = [];
 	            for(i=0;i<lenA;i+=1){
@@ -11111,18 +11207,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if(tOfA === 'string' || tOfB === 'string'){
 	            return a + b;
 	        }
-	        if((tOfA === 'number' || tOfA === 'boolean' || tOfA === 'string') && (tOfB === 'number' || tOfB === 'boolean' || tOfB === 'string')) {
+	        if((tOfA === 'number' || tOfA === 'boolean' || tOfA === 'string' || a instanceof Number) && (tOfB === 'number' || tOfB === 'boolean' || tOfB === 'string'  || b instanceof Number)) {
 	            return a + b;
 	        }
-	        if(tOfA === 'object' && (tOfB === 'number' || tOfB === 'boolean' || tOfB === 'string')){
+	        if(a.constructor === Array && (tOfB === 'number' || tOfB === 'boolean' || tOfB === 'string' || b instanceof Number )){
 	            a[0] = a[0] + b;
 	            return a;
 	        }
-	        if((tOfA === 'number' || tOfA === 'boolean' || tOfA === 'string') && tOfB === 'object'){
+	        if((tOfA === 'number' || tOfA === 'boolean' || tOfA === 'string' || a instanceof Number ) && b .constructor === Array){
 	            b[0] = a + b[0];
 	            return b;
 	        }
-	        if(tOfA === 'object' && tOfB === 'object'){
+	        if(a.constructor === Array && b.constructor === Array){
 	            var i = 0, lenA = a.length, lenB = b.length;
 	            var retArr = [];
 	            while(i<lenA || i < lenB){
@@ -11137,22 +11233,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	        return 0;
 	    }
+	    var add = sum;
 	
 	    function sub(a,b) {
 	        var tOfA = typeof a;
 	        var tOfB = typeof b;
-	        if((tOfA === 'number' || tOfA === 'boolean' || tOfA === 'string') && (tOfB === 'number' || tOfB === 'boolean' || tOfB === 'string')) {
+	        if((tOfA === 'number' || tOfA === 'boolean' || tOfA === 'string' || a instanceof Number ) && (tOfB === 'number' || tOfB === 'boolean' || tOfB === 'string' || b instanceof Number )) {
 	            return a - b;
 	        }
-	        if(tOfA === 'object' && (tOfB === 'number' || tOfB === 'boolean' || tOfB === 'string')){
+	        if( a.constructor === Array && (tOfB === 'number' || tOfB === 'boolean' || tOfB === 'string' || b instanceof Number )){
 	            a[0] = a[0] - b;
 	            return a;
 	        }
-	        if((tOfA === 'number' || tOfA === 'boolean' || tOfA === 'string') && tOfB === 'object'){
+	        if((tOfA === 'number' || tOfA === 'boolean' || tOfA === 'string' || a instanceof Number ) &&  b.constructor === Array){
 	            b[0] = a - b[0];
 	            return b;
 	        }
-	        if(tOfA === 'object' && tOfB === 'object'){
+	        if(a.constructor === Array && b.constructor === Array){
 	            var i = 0, lenA = a.length, lenB = b.length;
 	            var retArr = [];
 	            while(i<lenA || i < lenB){
@@ -11172,12 +11269,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var tOfA = typeof a;
 	        var tOfB = typeof b;
 	        var arr;
-	        if((tOfA === 'number' || tOfA === 'boolean' || tOfA === 'string') && (tOfB === 'number' || tOfB === 'boolean' || tOfB === 'string')) {
+	        if((tOfA === 'number' || tOfA === 'boolean' || tOfA === 'string' || a instanceof Number ) && (tOfB === 'number' || tOfB === 'boolean' || tOfB === 'string' || b instanceof Number )) {
 	            return a * b;
 	        }
 	
 	        var i, len;
-	        if(tOfA === 'object' && (tOfB === 'number' || tOfB === 'boolean' || tOfB === 'string')){
+	        if(a.constructor === Array && (tOfB === 'number' || tOfB === 'boolean' || tOfB === 'string' || b instanceof Number )){
 	            len = a.length;
 	            arr = Array.apply(null,{length:len});
 	            for(i=0;i<len;i+=1){
@@ -11185,7 +11282,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	            return arr;
 	        }
-	        if((tOfA === 'number' || tOfA === 'boolean' || tOfA === 'string') && tOfB === 'object'){
+	        if((tOfA === 'number' || tOfA === 'boolean' || tOfA === 'string' || a instanceof Number ) && b.constructor === Array){
 	            len = b.length;
 	            arr = Array.apply(null,{length:len});
 	            for(i=0;i<len;i+=1){
@@ -11200,11 +11297,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var tOfA = typeof a;
 	        var tOfB = typeof b;
 	        var arr;
-	        if((tOfA === 'number' || tOfA === 'boolean' || tOfA === 'string') && (tOfB === 'number' || tOfB === 'boolean' || tOfB === 'string')) {
+	        if((tOfA === 'number' || tOfA === 'boolean' || tOfA === 'string' || a instanceof Number ) && (tOfB === 'number' || tOfB === 'boolean' || tOfB === 'string' || b instanceof Number )) {
 	            return a / b;
 	        }
 	        var i, len;
-	        if(tOfA === 'object' && (tOfB === 'number' || tOfB === 'boolean' || tOfB === 'string')){
+	        if(a.constructor === Array && (tOfB === 'number' || tOfB === 'boolean' || tOfB === 'string' || b instanceof Number  )){
 	            len = a.length;
 	            arr = Array.apply(null,{length:len});
 	            for(i=0;i<len;i+=1){
@@ -11212,7 +11309,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	            return arr;
 	        }
-	        if((tOfA === 'number' || tOfA === 'boolean' || tOfA === 'string') && tOfB === 'object'){
+	        if((tOfA === 'number' || tOfA === 'boolean' || tOfA === 'string' || a instanceof Number ) && b.constructor === Array){
 	            len = b.length;
 	            arr = Array.apply(null,{length:len});
 	            for(i=0;i<len;i+=1){
@@ -11365,6 +11462,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function initiateExpression(elem,data,property){
 	        var val = data.x;
 	        var needsVelocity = val.indexOf('velocity') !== -1;
+	        var _needsRandom = val.indexOf('random') !== -1;
 	        var elemType = elem.data.ty;
 	        var transform,content,effect;
 	        var thisComp = elem.comp;
@@ -11378,7 +11476,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        //eval(fnStr);
 	        var fn = eval('[function(){' + val+';this.v = $bm_rt;}' + ']')[0];
 	        var bindedFn = fn.bind(this);
-	        var numKeys = data.k ? data.k.length : 0;
+	        var numKeys = property.kf ? data.k.length : 0;
 	
 	        var wiggle = function wiggle(freq,amp){
 	            var i,j, len = this.pv.length ? this.pv.length : 1;
@@ -11439,12 +11537,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	                if(type === 'pingpong') {
 	                    var iterations = Math.floor((firstKeyFrame - currentFrame)/cycleDuration);
 	                    if(iterations % 2 === 0){
-	                        return this.getValueAtTime((firstKeyFrame - currentFrame)%cycleDuration +  firstKeyFrame, 0);
+	                        return this.getValueAtTime(((firstKeyFrame - currentFrame)%cycleDuration +  firstKeyFrame) / this.comp.globalData.frameRate, 0);
 	                    }
 	                } else if(type === 'offset'){
-	                    var initV = this.getValueAtTime(firstKeyFrame, 0);
-	                    var endV = this.getValueAtTime(lastKeyFrame, 0);
-	                    var current = this.getValueAtTime(cycleDuration - (firstKeyFrame - currentFrame)%cycleDuration +  firstKeyFrame, 0);
+	                    var initV = this.getValueAtTime(firstKeyFrame / this.comp.globalData.frameRate, 0);
+	                    var endV = this.getValueAtTime(lastKeyFrame / this.comp.globalData.frameRate, 0);
+	                    var current = this.getValueAtTime((cycleDuration - (firstKeyFrame - currentFrame)%cycleDuration +  firstKeyFrame) / this.comp.globalData.frameRate, 0);
 	                    var repeats = Math.floor((firstKeyFrame - currentFrame)/cycleDuration)+1;
 	                    if(this.pv.length){
 	                        ret = new Array(initV.length);
@@ -11456,19 +11554,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    }
 	                    return current-(endV-initV)*repeats;
 	                } else if(type === 'continue'){
-	                    var firstValue = this.getValueAtTime(firstKeyFrame, 0);
-	                    var nextFirstValue = this.getValueAtTime(firstKeyFrame + 0.001, 0);
+	                    var firstValue = this.getValueAtTime(firstKeyFrame / this.comp.globalData.frameRate, 0);
+	                    var nextFirstValue = this.getValueAtTime((firstKeyFrame + 0.001) / this.comp.globalData.frameRate, 0);
 	                    if(this.pv.length){
 	                        ret = new Array(firstValue.length);
 	                        len = ret.length;
 	                        for(i=0;i<len;i+=1){
-	                            ret[i] = firstValue[i] + (firstValue[i]-nextFirstValue[i])*(firstKeyFrame - currentFrame)/0.0005;
+	                            ret[i] = firstValue[i] + (firstValue[i]-nextFirstValue[i])*(firstKeyFrame - currentFrame)/0.001;
 	                        }
 	                        return ret;
 	                    }
-	                    return firstValue + (firstValue-nextFirstValue)*(firstKeyFrame - currentFrame)/0.0005;
+	                    return firstValue + (firstValue-nextFirstValue)*(firstKeyFrame - currentFrame)/0.001;
 	                }
-	                return this.getValueAtTime(cycleDuration - (firstKeyFrame - currentFrame)%cycleDuration +  firstKeyFrame, 0);
+	                return this.getValueAtTime((cycleDuration - (firstKeyFrame - currentFrame) % cycleDuration +  firstKeyFrame) / this.comp.globalData.frameRate, 0);
 	            }
 	        }.bind(this);
 	
@@ -11505,12 +11603,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	                if(type === 'pingpong') {
 	                    var iterations = Math.floor((currentFrame - firstKeyFrame)/cycleDuration);
 	                    if(iterations % 2 !== 0){
-	                        return this.getValueAtTime(cycleDuration - (currentFrame - firstKeyFrame)%cycleDuration +  firstKeyFrame, 0);
+	                        return this.getValueAtTime((cycleDuration - (currentFrame - firstKeyFrame) % cycleDuration +  firstKeyFrame) / this.comp.globalData.frameRate, 0);
 	                    }
 	                } else if(type === 'offset'){
-	                    var initV = this.getValueAtTime(firstKeyFrame, 0);
-	                    var endV = this.getValueAtTime(lastKeyFrame, 0);
-	                    var current = this.getValueAtTime((currentFrame - firstKeyFrame)%cycleDuration +  firstKeyFrame, 0);
+	                    var initV = this.getValueAtTime(firstKeyFrame / this.comp.globalData.frameRate, 0);
+	                    var endV = this.getValueAtTime(lastKeyFrame / this.comp.globalData.frameRate, 0);
+	                    var current = this.getValueAtTime(((currentFrame - firstKeyFrame) % cycleDuration +  firstKeyFrame) / this.comp.globalData.frameRate, 0);
 	                    var repeats = Math.floor((currentFrame - firstKeyFrame)/cycleDuration);
 	                    if(this.pv.length){
 	                        ret = new Array(initV.length);
@@ -11522,19 +11620,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    }
 	                    return (endV-initV)*repeats + current;
 	                } else if(type === 'continue'){
-	                    var lastValue = this.getValueAtTime(lastKeyFrame, 0);
-	                    var nextLastValue = this.getValueAtTime(lastKeyFrame - 0.001, 0);
+	                    var lastValue = this.getValueAtTime(lastKeyFrame / this.comp.globalData.frameRate, 0);
+	                    var nextLastValue = this.getValueAtTime((lastKeyFrame - 0.001) / this.comp.globalData.frameRate, 0);
 	                    if(this.pv.length){
 	                        ret = new Array(lastValue.length);
 	                        len = ret.length;
 	                        for(i=0;i<len;i+=1){
-	                            ret[i] = lastValue[i] + (lastValue[i]-nextLastValue[i])*(currentFrame - lastKeyFrame)/0.0005;
+	                            ret[i] = lastValue[i] + (lastValue[i]-nextLastValue[i])*((currentFrame - lastKeyFrame)/ this.comp.globalData.frameRate)/0.0005;
 	                        }
 	                        return ret;
 	                    }
-	                    return lastValue + (lastValue-nextLastValue)*(currentFrame - lastKeyFrame)/0.0005;
+	                    return lastValue + (lastValue-nextLastValue)*(((currentFrame - lastKeyFrame))/0.001);
 	                }
-	                return this.getValueAtTime((currentFrame - firstKeyFrame)%cycleDuration +  firstKeyFrame, 0);
+	                return this.getValueAtTime(((currentFrame - firstKeyFrame) % cycleDuration +  firstKeyFrame) / this.comp.globalData.frameRate, 0);
 	            }
 	        }.bind(this);
 	        var loop_out = loopOut;
@@ -11544,7 +11642,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }.bind(this);
 	
 	        var valueAtTime = function valueAtTime(t) {
-	            return this.getValueAtTime(t*elem.comp.globalData.frameRate, 0);
+	            return this.getValueAtTime(t, 0);
 	        }.bind(this);
 	
 	        var velocityAtTime = function velocityAtTime(t) {
@@ -11608,7 +11706,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                time: data.k[ind].t/elem.comp.globalData.frameRate
 	            };
 	            var arr;
-	            if(ind === data.k.length - 1){
+	            if(ind === data.k.length - 1 && !data.k[ind].h){
 	                arr = data.k[ind-1].e;
 	            }else{
 	                arr = data.k[ind].s;
@@ -11671,12 +11769,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	            BMMath.seedrandom(randSeed + seed);
 	        };
 	
-	        var time,velocity, value,textIndex,textTotal,selectorValue, index = elem.data.ind + 1;
+	        var time,velocity, value,textIndex,textTotal,selectorValue;
+	        var index = elem.data.ind;
 	        var hasParent = !!(elem.hierarchy && elem.hierarchy.length);
 	        var parent;
 	        var randSeed = Math.floor(Math.random()*1000000);
 	        function execute(){
-	            seedRandom(randSeed);
+	            if(_needsRandom){
+	                seedRandom(randSeed);
+	            }
 	            if(this.frameExpressionId === elem.globalData.frameId && this.type !== 'textSelector'){
 	                return;
 	            }
@@ -11716,11 +11817,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	                velocity = velocityAtTime(time);
 	            }
 	            bindedFn();
+	            if(this.v.length && isNaN(this.v[0])){
+	
+	                console.log(val)
+	            }
 	            this.frameExpressionId = elem.globalData.frameId;
 	            var i,len;
 	            if(this.mult){
-	                if(typeof this.v === 'number'){
+	                if(typeof this.v === 'number' || this.v instanceof Number || typeof this.v === 'string'){
 	                    this.v *= this.mult;
+	                }else if(this.v.length === 1){
+	                    this.v = this.v[0] * this.mult;
 	                }else{
 	                    len = this.v.length;
 	                    if(value === this.v){
@@ -11735,7 +11842,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	            /*if(!this.v){
 	                console.log(val);
 	            }*/
-	            if(typeof this.v === 'number'){
+	            if(this.v.length === 1){
+	                this.v = this.v[0];
+	            }
+	            if(typeof this.v === 'number' || this.v instanceof Number || typeof this.v === 'string'){
 	                if(this.lastValue !== this.v){
 	                    this.lastValue = this.v;
 	                    this.mdf = true;
@@ -11746,8 +11856,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	                this.paths.length = 0;
 	                this.paths[0] = this.v;
 	            }else{
-	                /*if(!this.lastValue){
-	                }*/
 	                len = this.v.length;
 	                for(i = 0; i < len; i += 1){
 	                    if(this.v[i] !== this.lastValue[i]){
@@ -11899,6 +12007,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var interfaceFunction = function _interfaceFunction(value){
 	                switch(value){
 	                    case 'ADBE Vectors Group':
+	                    case 'Contents':
 	                    case 2:
 	                        return interfaceFunction.content;
 	                    case 'ADBE Vector Transform Group':
@@ -11956,25 +12065,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var fillInterfaceFactory = (function(){
 	        return function(shape,view,propertyGroup){
 	
+	            function interfaceFunction(val){
+	                if(val === 'Color' || val === 'color'){
+	                    return interfaceFunction.color;
+	                } else if(val === 'Opacity' || val === 'opacity'){
+	                    return interfaceFunction.opacity;
+	                }
+	            }
+	            Object.defineProperty(interfaceFunction, 'color', {
+	                get: function(){
+	                    return ExpressionValue(view.c, 1 / view.c.mult, 'color');
+	                }
+	            });
+	            Object.defineProperty(interfaceFunction, 'opacity', {
+	                get: function(){
+	                    return ExpressionValue(view.o, 100);
+	                }
+	            });
+	            Object.defineProperty(interfaceFunction, '_name', { value: shape.nm });
+	            Object.defineProperty(interfaceFunction, 'mn', { value: shape.mn });
+	
 	            view.c.setGroupProperty(propertyGroup);
 	            view.o.setGroupProperty(propertyGroup);
-	            var ob = {
-	                get color(){
-	                    if(view.c.k){
-	                        view.c.getValue();
-	                    }
-	                    return [view.c.v[0]/view.c.mult,view.c.v[1]/view.c.mult,view.c.v[2]/view.c.mult,1];
-	                },
-	                get opacity(){
-	                    if(view.o.k){
-	                        view.o.getValue();
-	                    }
-	                    return view.o.v;
-	                },
-	                _name: shape.nm,
-	                mn: shape.mn
-	            };
-	            return ob;
+	            return interfaceFunction;
 	        }
 	    }());
 	
@@ -11987,46 +12100,65 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    return propertyGroup(val-1);
 	                }
 	            };
+	            function _dashPropertyGroup(val){
+	                if(val === 1){
+	                    return dashOb;
+	                } else{
+	                    return _propertyGroup(val-1);
+	                }
+	            };
+	            function addPropertyToDashOb(i) {
+	                Object.defineProperty(dashOb, shape.d[i].nm, {
+	                    get: function(){
+	                        return ExpressionValue(view.d.dataProps[i].p)
+	                    }
+	                });
+	            }
 	            view.c.setGroupProperty(_propertyGroup);
 	            view.o.setGroupProperty(_propertyGroup);
 	            view.w.setGroupProperty(_propertyGroup);
-	            var ob = {
-	                get color(){
-	                    if(view.c.k){
-	                        view.c.getValue();
-	                    }
-	                    return [view.c.v[0]/view.c.mult,view.c.v[1]/view.c.mult,view.c.v[2]/view.c.mult,1];
-	                },
-	                get opacity(){
-	                    if(view.o.k){
-	                        view.o.getValue();
-	                    }
-	                    return view.o.v;
-	                },
-	                get strokeWidth(){
-	                    if(view.w.k){
-	                        view.w.getValue();
-	                    }
-	                    return view.w.v;
-	                },
-	                dashOb: {},
-	                get dash(){
-	                    var d = view.d;
-	                    var dModels = shape.d;
-	                    var i, len = dModels.length;
-	                    for(i=0;i<len;i+=1){
-	                        if(d.dataProps[i].p.k){
-	                            d.dataProps[i].p.getValue();
-	                        }
-	                        d.dataProps[i].p.setGroupProperty(propertyGroup);
-	                        this.dashOb[dModels[i].nm] = d.dataProps[i].p.v;
-	                    }
-	                    return this.dashOb;
-	                },
-	                _name: shape.nm,
-	                mn: shape.mn
-	            };
-	            return ob;
+	            var i, len = shape.d ? shape.d.length : 0;
+	            var dashOb = {}
+	            for (i = 0; i < len; i += 1) {
+	                addPropertyToDashOb(i);
+	                view.d.dataProps[i].p.setGroupProperty(_dashPropertyGroup);
+	            }
+	
+	            function interfaceFunction(val){
+	                if(val === 'Color' || val === 'color'){
+	                    return interfaceFunction.color;
+	                } else if(val === 'Opacity' || val === 'opacity'){
+	                    return interfaceFunction.opacity;
+	                } else if(val === 'Stroke Width' || val === 'stroke width'){
+	                    return interfaceFunction.strokeWidth;
+	                }
+	            }
+	            Object.defineProperty(interfaceFunction, 'color', {
+	                get: function(){
+	                    return ExpressionValue(view.c, 1 / view.c.mult, 'color');
+	                }
+	            });
+	            Object.defineProperty(interfaceFunction, 'opacity', {
+	                get: function(){
+	                    return ExpressionValue(view.o, 100);
+	                }
+	            });
+	            Object.defineProperty(interfaceFunction, 'strokeWidth', {
+	                get: function(){
+	                    return ExpressionValue(view.w);
+	                }
+	            });
+	            Object.defineProperty(interfaceFunction, 'dash', {
+	                get: function(){
+	                    return dashOb;
+	                }
+	            });
+	            Object.defineProperty(interfaceFunction, '_name', { value: shape.nm });
+	            Object.defineProperty(interfaceFunction, 'mn', { value: shape.mn });
+	
+	            view.c.setGroupProperty(propertyGroup);
+	            view.o.setGroupProperty(propertyGroup);
+	            return interfaceFunction;
 	        }
 	    }());
 	
@@ -12059,26 +12191,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	            interfaceFunction.propertyIndex = shape.ix;
 	            Object.defineProperty(interfaceFunction, 'start', {
 	                get: function(){
-	                    if(view.s.k){
-	                        view.s.getValue();
-	                    }
-	                    return view.s.v/view.s.mult;
+	                    return ExpressionValue(view.s, 1 / view.s.mult);
 	                }
 	            });
 	            Object.defineProperty(interfaceFunction, 'end', {
 	                get: function(){
-	                    if(view.e.k){
-	                        view.e.getValue();
-	                    }
-	                    return view.e.v/view.e.mult;
+	                    return ExpressionValue(view.e, 1 / view.e.mult);
 	                }
 	            });
 	            Object.defineProperty(interfaceFunction, 'offset', {
 	                get: function(){
-	                    if(view.o.k){
-	                        view.o.getValue();
-	                    }
-	                    return view.o.v;
+	                    return ExpressionValue(view.o);
 	                }
 	            });
 	            Object.defineProperty(interfaceFunction, '_name', {
@@ -12158,61 +12281,38 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	            Object.defineProperty(interfaceFunction, 'opacity', {
 	                get: function(){
-	                    if(view.transform.mProps.o.k){
-	                        view.transform.mProps.o.getValue();
-	                    }
-	                    return view.transform.mProps.o.v/view.transform.mProps.o.mult;
+	                    return ExpressionValue(view.transform.mProps.o, 1/view.transform.mProps.o.mult);
 	                }
 	            });
 	            Object.defineProperty(interfaceFunction, 'position', {
 	                get: function(){
-	                    if(view.transform.mProps.p.k){
-	                        view.transform.mProps.p.getValue();
-	                    }
-	                    return [view.transform.mProps.p.v[0],view.transform.mProps.p.v[1]];
+	                    return ExpressionValue(view.transform.mProps.p);
 	                }
 	            });
 	            Object.defineProperty(interfaceFunction, 'anchorPoint', {
 	                get: function(){
-	                    if(view.transform.mProps.a.k){
-	                        view.transform.mProps.a.getValue();
-	                    }
-	                    return [view.transform.mProps.a.v[0],view.transform.mProps.a.v[1]];
+	                    return ExpressionValue(view.transform.mProps.a);
 	                }
 	            });
 	            var scaleArray = [];
 	            Object.defineProperty(interfaceFunction, 'scale', {
 	                get: function(){
-	                    if(view.transform.mProps.s.k){
-	                        view.transform.mProps.s.getValue();
-	                    }
-	                    scaleArray[0] = view.transform.mProps.s.v[0]/view.transform.mProps.s.mult;
-	                    scaleArray[1] = view.transform.mProps.s.v[1]/view.transform.mProps.s.mult;
-	                    return scaleArray;
+	                    return ExpressionValue(view.transform.mProps.s, 1 / view.transform.mProps.s.mult);
 	                }
 	            });
 	            Object.defineProperty(interfaceFunction, 'rotation', {
 	                get: function(){
-	                    if(view.transform.mProps.r.k){
-	                        view.transform.mProps.r.getValue();
-	                    }
-	                    return view.transform.mProps.r.v/view.transform.mProps.r.mult;
+	                    return ExpressionValue(view.transform.mProps.r, 1 / view.transform.mProps.r.mult);
 	                }
 	            });
 	            Object.defineProperty(interfaceFunction, 'skew', {
 	                get: function(){
-	                    if(view.transform.mProps.sk.k){
-	                        view.transform.mProps.sk.getValue();
-	                    }
-	                    return view.transform.mProps.sk.v;
+	                    return ExpressionValue(view.transform.mProps.sk);
 	                }
 	            });
 	            Object.defineProperty(interfaceFunction, 'skewAxis', {
 	                get: function(){
-	                    if(view.transform.mProps.sa.k){
-	                        view.transform.mProps.sa.getValue();
-	                    }
-	                    return view.transform.mProps.sa.v;
+	                    return ExpressionValue(view.transform.mProps.sa);
 	                }
 	            });
 	            Object.defineProperty(interfaceFunction, '_name', {
@@ -12249,18 +12349,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	            Object.defineProperty(interfaceFunction, 'size', {
 	                get: function(){
-	                    if(prop.s.k){
-	                        prop.s.getValue();
-	                    }
-	                    return [prop.s.v[0],prop.s.v[1]];
+	                    return ExpressionValue(prop.s);
 	                }
 	            });
 	            Object.defineProperty(interfaceFunction, 'position', {
 	                get: function(){
-	                    if(prop.p.k){
-	                        prop.p.getValue();
-	                    }
-	                    return [prop.p.v[0],prop.p.v[1]];
+	                    return ExpressionValue(prop.p);
 	                }
 	            });
 	            Object.defineProperty(interfaceFunction, '_name', {
@@ -12320,42 +12414,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	            Object.defineProperty(interfaceFunction, 'position', {
 	                get: function(){
-	                    if(prop.p.k){
-	                        prop.p.getValue();
-	                    }
-	                    return prop.p.v;
+	                    return ExpressionValue(prop.p);
 	                }
 	            });
 	            Object.defineProperty(interfaceFunction, 'rotation', {
 	                get: function(){
-	                    if(prop.r.k){
-	                        prop.r.getValue();
-	                    }
-	                    return prop.r.v/prop.r.mult;
+	                    return ExpressionValue(prop.r, 1 / prop.r.mult);
 	                }
 	            });
 	            Object.defineProperty(interfaceFunction, 'points', {
 	                get: function(){
-	                    if(prop.pt.k){
-	                        prop.pt.getValue();
-	                    }
-	                    return prop.pt.v;
+	                    return ExpressionValue(prop.pt);
 	                }
 	            });
 	            Object.defineProperty(interfaceFunction, 'outerRadius', {
 	                get: function(){
-	                    if(prop.or.k){
-	                        prop.or.getValue();
-	                    }
-	                    return prop.or.v;
+	                    return ExpressionValue(prop.or);
 	                }
 	            });
 	            Object.defineProperty(interfaceFunction, 'outerRoundness', {
 	                get: function(){
-	                    if(prop.os.k){
-	                        prop.os.getValue();
-	                    }
-	                    return prop.os.v/prop.os.mult;
+	                    return ExpressionValue(prop.os);
 	                }
 	            });
 	            Object.defineProperty(interfaceFunction, 'innerRadius', {
@@ -12363,10 +12442,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    if(!prop.ir){
 	                        return 0;
 	                    }
-	                    if(prop.ir.k){
-	                        prop.ir.getValue();
-	                    }
-	                    return prop.ir.v;
+	                    return ExpressionValue(prop.ir);
 	                }
 	            });
 	            Object.defineProperty(interfaceFunction, 'innerRoundness', {
@@ -12374,10 +12450,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    if(!prop.is){
 	                        return 0;
 	                    }
-	                    if(prop.is.k){
-	                        prop.is.getValue();
-	                    }
-	                    return prop.is.v/prop.is.mult;
+	                    return ExpressionValue(prop.is, 1 / prop.is.mult);
 	                }
 	            });
 	            Object.defineProperty(interfaceFunction, '_name', {
@@ -12431,26 +12504,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	            Object.defineProperty(interfaceFunction, 'position', {
 	                get: function(){
-	                    if(prop.p.k){
-	                        prop.p.getValue();
-	                    }
-	                    return prop.p.v;
+	                    return ExpressionValue(prop.p);
 	                }
 	            });
 	            Object.defineProperty(interfaceFunction, 'roundness', {
 	                get: function(){
-	                    if(prop.r.k){
-	                        prop.r.getValue();
-	                    }
-	                    return prop.r.v;
+	                    return ExpressionValue(prop.r);
 	                }
 	            });
 	            Object.defineProperty(interfaceFunction, 'size', {
 	                get: function(){
-	                    if(prop.s.k){
-	                        prop.s.getValue();
-	                    }
-	                    return prop.s.v;
+	                    return ExpressionValue(prop.s);
 	                }
 	            });
 	
@@ -12485,10 +12549,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	            Object.defineProperty(interfaceFunction, 'radius', {
 	                get: function(){
-	                    if(prop.rd.k){
-	                        prop.rd.getValue();
-	                    }
-	                    return prop.rd.v;
+	                    return ExpressionValue(prop.rd);
 	                }
 	            });
 	
@@ -12506,23 +12567,31 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return function(shape,view,propertyGroup){
 	            var prop = view.sh.ty === 'tm' ? view.sh.prop : view.sh;
 	            prop.setGroupProperty(propertyGroup);
-	            var ob = {
-	                get shape(){
-	                    if(prop.k){
-	                        prop.getValue();
-	                    }
-	                    return prop.v;
-	                },
-	                get path(){
-	                    if(prop.k){
-	                        prop.getValue();
-	                    }
-	                    return prop.v;
-	                },
-	                _name: shape.nm,
-	                mn: shape.mn
+	
+	            function interfaceFunction(val){
+	                if(val === 'Shape' || val === 'shape' || val === 'Path' || val === 'path'){
+	                    return interfaceFunction.path;
+	                }
 	            }
-	            return ob;
+	            Object.defineProperty(interfaceFunction, 'path', {
+	                get: function(){
+	                    if(prop.k){
+	                        prop.getValue();
+	                    }
+	                    return shape_helper.clone(prop.v);
+	                }
+	            });
+	            Object.defineProperty(interfaceFunction, 'shape', {
+	                get: function(){
+	                    if(prop.k){
+	                        prop.getValue();
+	                    }
+	                    return shape_helper.clone(prop.v);
+	                }
+	            });
+	            Object.defineProperty(interfaceFunction, '_name', { value: shape.nm });
+	            Object.defineProperty(interfaceFunction, 'mn', { value: shape.mn });
+	            return interfaceFunction;
 	        }
 	    }());
 	
@@ -12530,6 +12599,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return ob;
 	}())
 	
+	var TextExpressionInterface = (function(){
+		return function(elem){
+	        function _thisLayerFunction(){
+	        }
+	        Object.defineProperty(_thisLayerFunction, "sourceText", {
+	            get: function(){
+	            	if(!elem.currentTextDocumentData.t) {
+	            		return ''
+	            	}
+	                return elem.currentTextDocumentData.t;
+	            }
+	        });
+	        return _thisLayerFunction;
+	    }
+	}())
 	var LayerExpressionInterface = (function (){
 	    function toWorld(arr){
 	        var toWorldMat = new Matrix();
@@ -12560,6 +12644,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        function _thisLayerFunction(name){
 	            switch(name){
 	                case "ADBE Root Vectors Group":
+	                case "Contents":
 	                case 2:
 	                    return _thisLayerFunction.shapeInterface;
 	                case 1:
@@ -12613,6 +12698,31 @@ return /******/ (function(modules) { // webpackBootstrap
 	                return transformInterface;
 	            }
 	        });
+	
+	        Object.defineProperty(_thisLayerFunction, "width", {
+	            get: function () {
+	                if(elem.data.ty === 0) {
+	                    return elem.data.w
+	                }
+	                return 100;
+	            }
+	        });
+	
+	        Object.defineProperty(_thisLayerFunction, "height", {
+	            get: function () {
+	                if(elem.data.ty === 0) {
+	                    return elem.data.h
+	                }
+	                return 100;
+	            }
+	        });
+	
+	        Object.defineProperty(_thisLayerFunction, "source", {
+	            get: function () {
+	                return elem.data.refId;
+	            }
+	        });
+	
 	        Object.defineProperty(_thisLayerFunction, "_name", { value:elem.data.nm });
 	        Object.defineProperty(_thisLayerFunction, "content", {
 	            get: function(){
@@ -12620,7 +12730,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	        });
 	
-	        _thisLayerFunction.active = true;
+	        Object.defineProperty(_thisLayerFunction, "active", {
+	            get: function(){
+	                return elem.isVisible;
+	            }
+	        });
+	
+	        Object.defineProperty(_thisLayerFunction, "text", {
+	            get: function(){
+	                return _thisLayerFunction.textInterface;
+	            }
+	        });
+	
 	        _thisLayerFunction.registerMaskInterface = _registerMaskInterface;
 	        _thisLayerFunction.registerEffectsInterface = _registerEffectsInterface;
 	        return _thisLayerFunction;
@@ -12632,12 +12753,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	        function _thisLayerFunction(name){
 	            var i=0, len = comp.layers.length;
 	            while(i<len){
-	                if(comp.layers[i].nm === name || comp.layers[i].ind === name - 1){
+	                if(comp.layers[i].nm === name || comp.layers[i].ind === name){
 	                    return comp.elements[i].layerInterface;
 	                }
 	                i += 1;
 	            }
+	            return {active:false}
 	        }
+	        Object.defineProperty(_thisLayerFunction, "_name", { value:comp.data.nm });
 	        _thisLayerFunction.layer = _thisLayerFunction;
 	        _thisLayerFunction.pixelAspect = 1;
 	        _thisLayerFunction.height = comp.globalData.compSize.h;
@@ -12658,6 +12781,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                case "rotation":
 	                case "Rotation":
 	                case "ADBE Rotation":
+	                case "ADBE Rotate Z":
 	                    return _thisFunction.rotation;
 	                case "position":
 	                case "Position":
@@ -12665,6 +12789,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    return transform.position;
 	                case "anchorPoint":
 	                case "AnchorPoint":
+	                case "Anchor Point":
 	                case "ADBE AnchorPoint":
 	                    return _thisFunction.anchorPoint;
 	                case "opacity":
@@ -12680,13 +12805,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        });
 	        Object.defineProperty(_thisFunction, "scale", {
 	            get: function () {
-	                var s = transform.scale;
-	                var i, len = s.length;
-	                var transformedS = Array.apply(null,{length:len});
-	                for(i=0;i<len;i+=1){
-	                    transformedS[i] = s[i]*100;
-	                }
-	                return transformedS;
+	                return transform.scale;
 	            }
 	        });
 	
@@ -12716,7 +12835,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        Object.defineProperty(_thisFunction, "opacity", {
 	            get: function () {
-	                return transform.opacity*100;
+	                return transform.opacity;
 	            }
 	        });
 	
@@ -12751,7 +12870,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	                }
 	                i+=1;
 	            }
-	            return this.compositions[0].compInterface;
 	        }
 	
 	        _thisProjectFunction.compositions = [];
@@ -12803,7 +12921,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	        var groupInterface = function(name){
 	            var effects = data.ef, i = 0, len = effects.length;
-	           // console.log('effects:',effects);
 	            while(i<len) {
 	                if(name === effects[i].nm || name === effects[i].mn || name === effects[i].ix){
 	                    if(effects[i].ty === 5){
@@ -12825,24 +12942,56 @@ return /******/ (function(modules) { // webpackBootstrap
 	            if(type === 10){
 	                return elem.comp.compInterface(element.p.v);
 	            }
-	            if(element.p.k){
-	                element.p.getValue();
-	            }
-	            if(typeof element.p.v === 'number'){
-	                return element.p.v;
-	            }
-	            var i, len = element.p.v.length;
-	            var arr = Array.apply(null,{length:len});
-	            for(i=0;i<len;i+=1){
-	                arr[i] = element.p.v[i];
-	            }
-	            return arr;
+	            return ExpressionValue(element.p);
 	        }
 	    }
 	
 	    return ob;
 	
 	}());
+	var ExpressionValue = (function() {
+		return function(elementProp, mult, type) {
+	        var expressionValue, arrayValue;
+			if (elementProp.k) {
+	            elementProp.getValue();
+	        }
+	        var i, len, arrValue;
+	        if (type) {
+	        	if(type === 'color') {
+	        		len = 4;
+			        expressionValue = Array.apply(null, {length: len});
+			        arrValue = Array.apply(null, {length: len});
+			        for (i = 0; i < len; i += 1) {
+			            expressionValue[i] = arrValue[i] = (mult && i < 3) ? elementProp.v[i] * mult : 1;
+			        }
+		        	expressionValue.value = arrValue;
+	        	}
+	        } else if (typeof elementProp.v === 'number' || elementProp.v instanceof Number){
+	            expressionValue = mult ? new Number(elementProp.v * mult) : new Number(elementProp.v);
+	            expressionValue.value = mult ? elementProp.v * mult : elementProp.v;
+	        } else {
+	        	len = elementProp.v.length;
+		        expressionValue = Array.apply(null, {length: len});
+		        arrValue = Array.apply(null, {length: len});
+		        for (i = 0; i < len; i += 1) {
+		            expressionValue[i] = arrValue[i] = mult ? elementProp.v[i] * mult : elementProp.v[i];
+		        }
+		        expressionValue.value = arrValue;
+	        }
+	        
+	        expressionValue.numKeys = elementProp.keyframes ? elementProp.keyframes.length : 0;
+	        expressionValue.key = function(pos) {
+	            if (!expressionValue.numKeys) {
+	                return 0;
+	            } else {
+	                return elementProp.keyframes[pos-1].t;
+	            }
+	        };
+	        expressionValue.valueAtTime = elementProp.getValueAtTime;
+	        expressionValue.propertyGroup = elementProp.propertyGroup;
+	        return expressionValue;
+		}
+	}())
 	function SliderEffect(data,elem, dynamicProperties){
 	    this.p = PropertyFactory.getProp(elem,data.v,0,0,dynamicProperties);
 	}
@@ -12858,8 +13007,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	function LayerIndexEffect(data,elem, dynamicProperties){
 	    this.p = PropertyFactory.getProp(elem,data.v,0,0,dynamicProperties);
 	}
+	function MaskIndexEffect(data,elem, dynamicProperties){
+	    this.p = PropertyFactory.getProp(elem,data.v,0,0,dynamicProperties);
+	}
 	function CheckboxEffect(data,elem, dynamicProperties){
-	    this.p = PropertyFactory.getProp(elem,data.v,1,0,dynamicProperties);
+	    this.p = PropertyFactory.getProp(elem,data.v,0,0,dynamicProperties);
 	}
 	function NoValueEffect(){
 	    this.p = {};
@@ -12925,6 +13077,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	                eff = new LayerIndexEffect(effects[i],element,dynamicProperties);
 	                this.effectElements.push(eff);
 	                break;
+	            case 11:
+	                eff = new MaskIndexEffect(effects[i],element,dynamicProperties);
+	                this.effectElements.push(eff);
+	                break;
 	            case 5:
 	                eff = new EffectsManager(effects[i],element,dynamicProperties);
 	                this.effectElements.push(eff);
@@ -12935,7 +13091,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                break;
 	        }
 	    }
-	};var bodymovinjs = {}; function play(animation){ animationManager.play(animation); } function pause(animation){ animationManager.pause(animation); } function togglePause(animation){ animationManager.togglePause(animation); } function setSpeed(value,animation){ animationManager.setSpeed(value, animation); } function setDirection(value,animation){ animationManager.setDirection(value, animation); } function stop(animation){ animationManager.stop(animation); } function moveFrame(value){ animationManager.moveFrame(value); } function searchAnimations(){ if(standalone === true){ animationManager.searchAnimations(animationData,standalone, renderer); }else{ animationManager.searchAnimations(); } } function registerAnimation(elem){ return animationManager.registerAnimation(elem); } function resize(){ animationManager.resize(); } function start(){ animationManager.start(); } function goToAndStop(val,isFrame, animation){ animationManager.goToAndStop(val,isFrame, animation); } function setSubframeRendering(flag){ subframeEnabled = flag; } function loadAnimation(params){ if(standalone === true){ params.animationData = JSON.parse(animationData); } return animationManager.loadAnimation(params); } function destroy(animation){ return animationManager.destroy(animation); } function setQuality(value){ if(typeof value === 'string'){ switch(value){ case 'high': defaultCurveSegments = 200; break; case 'medium': defaultCurveSegments = 50; break; case 'low': defaultCurveSegments = 10; break; } }else if(!isNaN(value) && value > 1){ defaultCurveSegments = value; } if(defaultCurveSegments >= 50){ roundValues(false); }else{ roundValues(true); } } function installPlugin(type,plugin){ if(type==='expressions'){ expressionsPlugin = plugin; } } function getFactory(name){ switch(name){ case "propertyFactory": return PropertyFactory;case "shapePropertyFactory": return ShapePropertyFactory; case "matrix": return Matrix; } } bodymovinjs.play = play; bodymovinjs.pause = pause; bodymovinjs.togglePause = togglePause; bodymovinjs.setSpeed = setSpeed; bodymovinjs.setDirection = setDirection; bodymovinjs.stop = stop; bodymovinjs.moveFrame = moveFrame; bodymovinjs.searchAnimations = searchAnimations; bodymovinjs.registerAnimation = registerAnimation; bodymovinjs.loadAnimation = loadAnimation; bodymovinjs.setSubframeRendering = setSubframeRendering; bodymovinjs.resize = resize; bodymovinjs.start = start; bodymovinjs.goToAndStop = goToAndStop; bodymovinjs.destroy = destroy; bodymovinjs.setQuality = setQuality; bodymovinjs.installPlugin = installPlugin; bodymovinjs.__getFactory = getFactory; bodymovinjs.version = '4.5.7'; function checkReady(){ if (document.readyState === "complete") { clearInterval(readyStateCheckInterval); searchAnimations(); } } function getQueryVariable(variable) { var vars = queryString.split('&'); for (var i = 0; i < vars.length; i++) { var pair = vars[i].split('='); if (decodeURIComponent(pair[0]) == variable) { return decodeURIComponent(pair[1]); } } } var standalone = '__[STANDALONE]__'; var animationData = '__[ANIMATIONDATA]__'; var renderer = ''; if(standalone) { var scripts = document.getElementsByTagName('script'); var index = scripts.length - 1; var myScript = scripts[index]; var queryString = myScript.src.replace(/^[^\?]+\??/,''); renderer = getQueryVariable('renderer'); } var readyStateCheckInterval = setInterval(checkReady, 100); return bodymovinjs; }));  
+	};var bodymovinjs = {}; function play(animation){ animationManager.play(animation); } function pause(animation){ animationManager.pause(animation); } function togglePause(animation){ animationManager.togglePause(animation); } function setSpeed(value,animation){ animationManager.setSpeed(value, animation); } function setDirection(value,animation){ animationManager.setDirection(value, animation); } function stop(animation){ animationManager.stop(animation); } function moveFrame(value){ animationManager.moveFrame(value); } function searchAnimations(){ if(standalone === true){ animationManager.searchAnimations(animationData,standalone, renderer); }else{ animationManager.searchAnimations(); } } function registerAnimation(elem){ return animationManager.registerAnimation(elem); } function resize(){ animationManager.resize(); } function start(){ animationManager.start(); } function goToAndStop(val,isFrame, animation){ animationManager.goToAndStop(val,isFrame, animation); } function setSubframeRendering(flag){ subframeEnabled = flag; } function loadAnimation(params){ if(standalone === true){ params.animationData = JSON.parse(animationData); } return animationManager.loadAnimation(params); } function destroy(animation){ return animationManager.destroy(animation); } function setQuality(value){ if(typeof value === 'string'){ switch(value){ case 'high': defaultCurveSegments = 200; break; case 'medium': defaultCurveSegments = 50; break; case 'low': defaultCurveSegments = 10; break; } }else if(!isNaN(value) && value > 1){ defaultCurveSegments = value; } if(defaultCurveSegments >= 50){ roundValues(false); }else{ roundValues(true); } } function installPlugin(type,plugin){ if(type==='expressions'){ expressionsPlugin = plugin; } } function getFactory(name){ switch(name){ case "propertyFactory": return PropertyFactory;case "shapePropertyFactory": return ShapePropertyFactory; case "matrix": return Matrix; } } bodymovinjs.play = play; bodymovinjs.pause = pause; bodymovinjs.togglePause = togglePause; bodymovinjs.setSpeed = setSpeed; bodymovinjs.setDirection = setDirection; bodymovinjs.stop = stop; bodymovinjs.moveFrame = moveFrame; bodymovinjs.searchAnimations = searchAnimations; bodymovinjs.registerAnimation = registerAnimation; bodymovinjs.loadAnimation = loadAnimation; bodymovinjs.setSubframeRendering = setSubframeRendering; bodymovinjs.resize = resize; bodymovinjs.start = start; bodymovinjs.goToAndStop = goToAndStop; bodymovinjs.destroy = destroy; bodymovinjs.setQuality = setQuality; bodymovinjs.installPlugin = installPlugin; bodymovinjs.__getFactory = getFactory; bodymovinjs.version = '4.6.1'; function checkReady(){ if (document.readyState === "complete") { clearInterval(readyStateCheckInterval); searchAnimations(); } } function getQueryVariable(variable) { var vars = queryString.split('&'); for (var i = 0; i < vars.length; i++) { var pair = vars[i].split('='); if (decodeURIComponent(pair[0]) == variable) { return decodeURIComponent(pair[1]); } } } var standalone = '__[STANDALONE]__'; var animationData = '__[ANIMATIONDATA]__'; var renderer = ''; if(standalone) { var scripts = document.getElementsByTagName('script'); var index = scripts.length - 1; var myScript = scripts[index]; var queryString = myScript.src.replace(/^[^\?]+\??/,''); renderer = getQueryVariable('renderer'); } var readyStateCheckInterval = setInterval(checkReady, 100); return bodymovinjs; }));  
 
 /***/ }
 /******/ ])
