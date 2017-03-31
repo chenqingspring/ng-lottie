@@ -18,9 +18,9 @@ export class LottieAnimationViewComponent implements OnInit {
 
     @ViewChild('lavContainer') lavContainer: ElementRef;
 
+    public viewWidth: string;
+    public viewHeight: string;
     private _options: any;
-    private viewWidth: string;
-    private viewHeight: string;
 
     ngOnInit() {
         this._options = {
