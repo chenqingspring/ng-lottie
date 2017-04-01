@@ -1,6 +1,6 @@
 {
   "name": "lottie-angular2",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "lottie animation view for angular2",
   "main": "./dist/umd/LottieAnimationView.js",
   "module": "./dist/esm/src/index.js",
@@ -28,7 +28,8 @@
   },
   "keywords": [
     "angular2",
-    "angular"
+    "angular",
+
   ],
   "author": "CHEN Qing",
   "license": "MIT",
