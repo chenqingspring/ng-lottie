@@ -86,7 +86,6 @@
     "zone.js": "^0.8.4"
   },
   "peerDependencies": {
-    "@angular/core": "^4.0.0"
   },
   "dependencies": {
     "bodymovin": "^4.5.6"
