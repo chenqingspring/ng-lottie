@@ -35,7 +35,7 @@ import { Component } from '@angular/core';
   `],
 })
 
-export class DemoComponent {
+export class AppComponent {
 
     public lottieConfig: Object;
     private anim: any;

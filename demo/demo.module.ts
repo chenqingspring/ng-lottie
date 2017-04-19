@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { LottieAnimationViewModule } from '../src';
-import { DemoComponent } from './demo.component';
+import { AppComponent } from './app.component';
 
 @NgModule({
-  declarations: [DemoComponent],
+  declarations: [AppComponent],
   imports: [BrowserModule, LottieAnimationViewModule.forRoot()],
-  bootstrap: [DemoComponent]
+  bootstrap: [AppComponent]
 })
 export class DemoModule {}
