@@ -8,7 +8,6 @@
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/chenqingspring/ng-lottie/master/LICENSE)
 
 
-
 ## Demo
 https://chenqingspring.github.io/ng-lottie/demo/
 
