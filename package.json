@@ -1,7 +1,7 @@
 {
-  "name": "lottie-angular2",
-  "version": "0.0.9",
-  "description": "lottie animation view for angular2",
+  "name": "ng-lottie",
+  "version": "0.1.0",
+  "description": "lottie animation view for angular",
   "main": "./dist/umd/LottieAnimationView.js",
   "module": "./dist/esm/src/index.js",
   "typings": "./dist/esm/src/index.d.ts",
@@ -24,7 +24,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/chenqingspring/lottie-angular2.git"
+    "url": "git+https://github.com/chenqingspring/ng-lottie.git"
   },
   "keywords": [
     "angular2",
@@ -34,9 +34,9 @@
   "author": "CHEN Qing",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/chenqingspring/lottie-angular2/issues"
+    "url": "https://github.com/chenqingspring/ng-lottie/issues"
   },
-  "homepage": "https://github.com/chenqingspring/lottie-angular2#readme",
+  "homepage": "https://github.com/chenqingspring/ng-lottie#readme",
   "devDependencies": {
     "@angular/common": "^4.0.0",
     "@angular/compiler": "^4.0.0",
