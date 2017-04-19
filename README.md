@@ -11,8 +11,7 @@
 ## Demo
 https://chenqingspring.github.io/ng-lottie/demo/
 
-Renamed from ***lottie-angular2*** after supporting angular4
-
+Renamed from ***lottie-angular2*** after angular4 supported
 
 ## Table of contents
 
