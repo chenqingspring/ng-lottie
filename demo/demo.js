@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "929bc815284b6cc8ab69"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "ae0709f7a5a0347fb182"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -53737,7 +53737,7 @@
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	const core_1 = __webpack_require__(27);
-	let DemoComponent = class DemoComponent {
+	let AppComponent = class AppComponent {
 	    constructor() {
 	        this.animationSpeed = 1;
 	        this.lottieConfig = {
@@ -53763,7 +53763,7 @@
 	        this.anim.setSpeed(speed);
 	    }
 	};
-	DemoComponent = __decorate([
+	AppComponent = __decorate([
 	    core_1.Component({
 	        selector: 'lottie-animation-view-demo-app',
 	        template: ` <lottie-animation-view
@@ -53799,8 +53799,8 @@
 	  `],
 	    }),
 	    __metadata("design:paramtypes", [])
-	], DemoComponent);
-	exports.DemoComponent = DemoComponent;
+	], AppComponent);
+	exports.AppComponent = AppComponent;
 
 
 /***/ }),
@@ -53817,14 +53817,14 @@
 	const core_1 = __webpack_require__(27);
 	const platform_browser_1 = __webpack_require__(99);
 	const src_1 = __webpack_require__(139);
-	const demo_component_1 = __webpack_require__(137);
+	const app_component_1 = __webpack_require__(137);
 	let DemoModule = class DemoModule {
 	};
 	DemoModule = __decorate([
 	    core_1.NgModule({
-	        declarations: [demo_component_1.DemoComponent],
+	        declarations: [app_component_1.AppComponent],
 	        imports: [platform_browser_1.BrowserModule, src_1.LottieAnimationViewModule.forRoot()],
-	        bootstrap: [demo_component_1.DemoComponent]
+	        bootstrap: [app_component_1.AppComponent]
 	    })
 	], DemoModule);
 	exports.DemoModule = DemoModule;
