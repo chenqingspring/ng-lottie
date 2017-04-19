@@ -1,13 +1,18 @@
-# lottie animation view for angular2
-[![Build Status](https://travis-ci.org/chenqingspring/lottie-angular2.svg?branch=master)](https://travis-ci.org/chenqingspring/lottie-angular2)
-[![npm version](https://badge.fury.io/js/lottie-angular2.svg)](http://badge.fury.io/js/lottie-angular2)
-[![devDependency Status](https://david-dm.org/chenqingspring/lottie-angular2/dev-status.svg)](https://david-dm.org/chenqingspring/lottie-angular2?type=dev)
-[![GitHub issues](https://img.shields.io/github/issues/chenqingspring/lottie-angular2.svg)](https://github.com/chenqingspring/lottie-angular2/issues)
-[![GitHub stars](https://img.shields.io/github/stars/chenqingspring/lottie-angular2.svg)](https://github.com/chenqingspring/lottie-angular2/stargazers)
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/chenqingspring/lottie-angular2/master/LICENSE)
+# lottie animation view for angular
+
+[![Build Status](https://travis-ci.org/chenqingspring/ng-lottie.svg?branch=master)](https://travis-ci.org/chenqingspring/ng-lottie)
+[![npm version](https://badge.fury.io/js/ng-lottie.svg)](http://badge.fury.io/js/ng-lottie)
+[![devDependency Status](https://david-dm.org/chenqingspring/ng-lottie/dev-status.svg)](https://david-dm.org/chenqingspring/ng-lottie?type=dev)
+[![GitHub issues](https://img.shields.io/github/issues/chenqingspring/ng-lottie.svg)](https://github.com/chenqingspring/ng-lottie/issues)
+[![GitHub stars](https://img.shields.io/github/stars/chenqingspring/ng-lottie.svg)](https://github.com/chenqingspring/ng-lottie/stargazers)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/chenqingspring/ng-lottie/master/LICENSE)
+
 
 ## Demo
-https://chenqingspring.github.io/lottie-angular2/demo/
+https://chenqingspring.github.io/ng-lottie/demo/
+
+Renamed from***lottie-angular2***after supporting angular4
+
 
 ## Table of contents
 
@@ -33,14 +38,14 @@ Bundle vector animations within your app without having to worry about multiple 
 
 Install through npm:
 ```
-npm install --save lottie-angular2
+npm install --save ng-lottie
 ```
 
 Then include in your apps module:
 
 ```typescript
 import { Component, NgModule } from '@angular/core';
-import { LottieAnimationViewModule } from 'lottie-angular2';
+import { LottieAnimationViewModule } from 'ng-lottie';
 
 @NgModule({
   imports: [
@@ -113,7 +118,7 @@ export class DemoComponent {
 
 ```
 
-You may also find it useful to view the [demo source](https://github.com/chenqingspring/lottie-angular2/blob/master/demo/demo.component.ts).
+You may also find it useful to view the [demo source](https://github.com/chenqingspring/ng-lottie/blob/master/demo/demo.component.ts).
 
 ### Usage without a module bundler
 ```
@@ -125,7 +130,7 @@ You may also find it useful to view the [demo source](https://github.com/chenqin
 
 ## Documentation
 All documentation is auto-generated from the source via typedoc and can be viewed here:
-https://chenqingspring.github.io/lottie-angular2/docs/
+https://chenqingspring.github.io/ng-lottie/docs/
 
 ## Development
 
