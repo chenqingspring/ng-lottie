@@ -37,12 +37,12 @@
   },
   "homepage": "https://github.com/chenqingspring/lottie-angular2#readme",
   "devDependencies": {
-    "@angular/common": "^2.1.0",
-    "@angular/compiler": "^2.1.0",
-    "@angular/compiler-cli": "^2.1.0",
-    "@angular/core": "^2.1.0",
-    "@angular/platform-browser": "^2.1.0",
-    "@angular/platform-browser-dynamic": "^2.1.0",
+    "@angular/common": "^4.0.0",
+    "@angular/compiler": "^4.0.0",
+    "@angular/compiler-cli": "^4.0.0",
+    "@angular/core": "^4.0.0",
+    "@angular/platform-browser": "^4.0.0",
+    "@angular/platform-browser-dynamic": "^4.0.0",
     "@types/chai": "^3.4.30",
     "@types/core-js": "^0.9.32",
     "@types/jasmine": "2.5.41",
@@ -50,9 +50,9 @@
     "@types/node": "^7.0.5",
     "@types/sinon": "^1.16.27",
     "@types/sinon-chai": "^2.7.26",
-    "awesome-typescript-loader": "^2.2.4",
+    "awesome-typescript-loader": "^3.1.2",
     "chai": "^3.5.0",
-    "codelyzer": "2.0.0-beta.4",
+    "codelyzer": "^2.1.1",
     "commitizen": "^2.8.1",
     "concurrently": "^3.0.0",
     "conventional-changelog": "^1.1.0",
@@ -78,14 +78,14 @@
     "tslint": "^4.0.2",
     "tslint-loader": "^3.3.0",
     "typedoc": "^0.5.0",
-    "typescript": "~2.0.3",
+    "typescript": "~2.1.5",
     "validate-commit-msg": "^2.8.0",
     "webpack": "^1.13.0",
     "webpack-dev-server": "^1.16.1",
-    "zone.js": "^0.7.4"
+    "zone.js": "^0.8.4"
   },
   "peerDependencies": {
-    "@angular/core": "^2.0.0"
+    "@angular/core": "^4.0.0"
   },
   "dependencies": {
     "bodymovin": "^4.5.6"
