@@ -1,4 +1,4 @@
-# lottie animation view for angular
+# Lottie Animation View for Angular ([React](https://github.com/chenqingspring/react-lottie))
 
 [![Build Status](https://travis-ci.org/chenqingspring/ng-lottie.svg?branch=master)](https://travis-ci.org/chenqingspring/ng-lottie)
 [![npm version](https://badge.fury.io/js/ng-lottie.svg)](http://badge.fury.io/js/ng-lottie)
@@ -6,7 +6,6 @@
 [![GitHub issues](https://img.shields.io/github/issues/chenqingspring/ng-lottie.svg)](https://github.com/chenqingspring/ng-lottie/issues)
 [![GitHub stars](https://img.shields.io/github/stars/chenqingspring/ng-lottie.svg)](https://github.com/chenqingspring/ng-lottie/stargazers)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/chenqingspring/ng-lottie/master/LICENSE)
-
 
 ## Demo
 https://chenqingspring.github.io/ng-lottie/demo/
