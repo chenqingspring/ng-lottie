@@ -12,6 +12,10 @@ https://chenqingspring.github.io/ng-lottie/demo/
 
 Renamed from ***lottie-angular2*** after angular4 supported
 
+## Wapper of bodymovin.js
+
+[bodymovin](https://github.com/bodymovin/bodymovin) is [Adobe After Effects](http://www.adobe.com/products/aftereffects.html) plugin for exporting animations as JSON, also it provide bodymovin.js for vender them as svg/canvas/html.
+
 ## Why Lottie?
 
 #### Flexible After Effects features
