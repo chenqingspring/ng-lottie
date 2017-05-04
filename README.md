@@ -112,6 +112,9 @@ export class DemoComponent {
 }
 
 ```
+## Contribution
+
+Your contributions and suggestions are heartily welcome.
 
 ## License
 
