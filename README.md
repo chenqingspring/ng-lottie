@@ -1,4 +1,4 @@
-# lottie animation view for angular
+# Lottie Animation View for Angular ([React](https://github.com/chenqingspring/react-lottie), [Vue](https://github.com/chenqingspring/vue-lottie))
 
 [![Build Status](https://travis-ci.org/chenqingspring/ng-lottie.svg?branch=master)](https://travis-ci.org/chenqingspring/ng-lottie)
 [![npm version](https://badge.fury.io/js/ng-lottie.svg)](http://badge.fury.io/js/ng-lottie)
@@ -7,18 +7,14 @@
 [![GitHub stars](https://img.shields.io/github/stars/chenqingspring/ng-lottie.svg)](https://github.com/chenqingspring/ng-lottie/stargazers)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/chenqingspring/ng-lottie/master/LICENSE)
 
-
 ## Demo
 https://chenqingspring.github.io/ng-lottie/demo/
 
 Renamed from ***lottie-angular2*** after angular4 supported
 
-## Table of contents
+## Wapper of bodymovin.js
 
-- [Installation](#installation)
-- [Documentation](#documentation)
-- [Development](#development)
-- [License](#license)
+[bodymovin](https://github.com/bodymovin/bodymovin) is [Adobe After Effects](http://www.adobe.com/products/aftereffects.html) plugin for exporting animations as JSON, also it provide bodymovin.js for vender them as svg/canvas/html.
 
 ## Why Lottie?
 
@@ -117,37 +113,19 @@ export class DemoComponent {
 
 ```
 
-You may also find it useful to view the [demo source](https://github.com/chenqingspring/ng-lottie/blob/master/demo/demo.component.ts).
+## Related Projects
 
-### Usage without a module bundler
-```
-<script src="node_modules/dist/umd/LottieAnimationView/LottieAnimationView.js"></script>
-<script>
-    // everything is exported LottieAnimationView namespace
-</script>
-```
+* [Bodymovin](https://github.com/bodymovin/bodymovin) ng-lottie is a wrapper of bodymovin
+* [Ionic Lottie](https://github.com/yannbf/ionic-lottie) Thanks for @yannbf demonstrating ng-lottie on ionic3
+* [React Lottie](https://github.com/chenqingspring/react-lottie) react implementation
+* [Vue Lottie](https://github.com/chenqingspring/vue-lottie) vue implementation
+* [React Native Lottie](https://github.com/airbnb/lottie-react-native) react native implementation by airbnb
+* [IOS Lottie](https://github.com/airbnb/lottie-ios) ios implementation by airbnb
+* [Android Lottie](https://github.com/airbnb/lottie-android) android implementation by airbnb
 
-## Documentation
-All documentation is auto-generated from the source via typedoc and can be viewed here:
-https://chenqingspring.github.io/ng-lottie/docs/
+## Contribution
 
-## Development
-
-### Prepare your environment
-* Install [Node.js](http://nodejs.org/) and NPM (should come with)
-* Install local dev dependencies: `npm install` while current directory is this repo
-
-### Development server
-Run `npm start` to start a development server on port 8000 with auto reload + tests.
-
-### Testing
-Run `npm test` to run tests once or `npm run test:watch` to continually run tests.
-
-### Release
-* Bump the version in package.json (once the module hits 1.0 this will become automatic)
-```bash
-npm run release
-```
+Your contributions and suggestions are heartily welcome.
 
 ## License
 
