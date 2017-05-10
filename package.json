@@ -19,8 +19,7 @@
     "typedoc": "typedoc --options typedoc.json src/*.ts",
     "gh-pages": "git checkout gh-pages && git merge master --no-edit && npm run build:demo && npm run typedoc && git add . && git commit -m 'chore: build demo and docs' && git push && git checkout master",
     "release": "git add package.json && git commit -m 'chore: bump version number' && standard-version --first-release && git push --follow-tags origin master && npm run build:dist && npm publish",
-    "postrelease": "npm run build:clean && npm run gh-pages",
-    "commitmsg": "validate-commit-msg"
+    "postrelease": "npm run build:clean && npm run gh-pages"
   },
   "repository": {
     "type": "git",
@@ -80,7 +79,6 @@
     "tslint-loader": "^3.3.0",
     "typedoc": "^0.5.0",
     "typescript": "~2.1.5",
-    "validate-commit-msg": "^2.8.0",
     "webpack": "^1.13.0",
     "webpack-dev-server": "^1.16.1",
     "zone.js": "^0.8.4"
