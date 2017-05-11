@@ -29,7 +29,8 @@ export class LottieAnimationViewComponent implements OnInit {
             loop: this.options.loop !== false,
             autoplay: this.options.autoplay !== false,
             animationData: this.options.animationData,
-            path: this.options.path || ''
+            path: this.options.path || '',
+            rendererSettings: this.options.rendererSettings || {}
         };
 
         this.viewWidth = this.width + 'px' || '100%';
