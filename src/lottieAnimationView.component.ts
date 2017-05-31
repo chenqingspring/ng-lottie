@@ -28,6 +28,7 @@ export class LottieAnimationViewComponent implements OnInit {
             renderer: 'svg',
             loop: this.options.loop !== false,
             autoplay: this.options.autoplay !== false,
+            autoloadSegments: this.options.autoloadSegments !== false,
             animationData: this.options.animationData,
             path: this.options.path || '',
             rendererSettings: this.options.rendererSettings || {}
