@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 declare let require: any;
-const bodymovin: any = require('bodymovin/build/player/bodymovin.js');
+const lottie: any = require('lottie-web/build/player/lottie.js');
 
 @Component({
     selector: 'lottie-animation-view',
@@ -37,7 +37,7 @@ export class LottieAnimationViewComponent implements OnInit {
         this.viewWidth = this.width + 'px' || '100%';
         this.viewHeight = this.height + 'px' || '100%';
 
-        let anim: any = bodymovin.loadAnimation(this._options);
+        let anim: any = lottie.loadAnimation(this._options);
         this.animCreated.emit(anim);
     }
 }
