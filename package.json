@@ -1,6 +1,6 @@
 {
   "name": "ng-lottie",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "lottie animation view for angular",
   "main": "./dist/umd/LottieAnimationView.js",
   "module": "./dist/esm/src/index.js",
@@ -82,7 +82,7 @@
   },
   "peerDependencies": {},
   "dependencies": {
-    "bodymovin": "^4.8.0"
+    "lottie-web": "^5.1.3"
   },
   "files": [
     "dist"

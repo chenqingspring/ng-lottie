@@ -2,7 +2,6 @@
 
 [![Build Status](https://travis-ci.org/chenqingspring/ng-lottie.svg?branch=master)](https://travis-ci.org/chenqingspring/ng-lottie)
 [![npm version](https://badge.fury.io/js/ng-lottie.svg)](http://badge.fury.io/js/ng-lottie)
-[![devDependency Status](https://david-dm.org/chenqingspring/ng-lottie/dev-status.svg)](https://david-dm.org/chenqingspring/ng-lottie?type=dev)
 [![GitHub issues](https://img.shields.io/github/issues/chenqingspring/ng-lottie.svg)](https://github.com/chenqingspring/ng-lottie/issues)
 [![GitHub stars](https://img.shields.io/github/stars/chenqingspring/ng-lottie.svg)](https://github.com/chenqingspring/ng-lottie/stargazers)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/chenqingspring/ng-lottie/master/LICENSE)
@@ -22,12 +21,14 @@ Renamed from ***lottie-angular2*** after angular4 supported
 We currently support solids, shape layers, masks, alpha mattes, trim paths, and dash patterns. And we’ll be adding new features on a regular basis.
 
 #### Manipulate your animation any way you like
-You can go forward, backward, and — most importantly — you can program your animation to respond to any interaction.
+You can go forward, backward, and most importantly you can program your animation to respond to any interaction.
 
 #### Small file sizes
 Bundle vector animations within your app without having to worry about multiple dimensions or large file sizes. Alternatively, you can decouple animation files from your app’s code entirely by loading them from a JSON API.
 
 [Learn more](http://airbnb.design/introducing-lottie/) › http://airbnb.design/lottie/
+
+Looking for lottie files › https://www.lottiefiles.com/
 
 ## Installation
 
