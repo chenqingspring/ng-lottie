@@ -13,9 +13,7 @@ const lottie: any = require('lottie-web/build/player/lottie.js');
 
 export class LottieAnimationViewComponent implements OnInit {
     
-    constructor(@Inject(PLATFORM_ID) platformId: string) {
-       isPlatformBrowser(platformId);
-    }
+    constructor(@Inject(PLATFORM_ID) platformId: string) {}
 
     @Input() options: any;
     @Input() width: number;
