@@ -29,7 +29,7 @@ export class LottieAnimationViewComponent implements OnInit {
 
     ngOnInit() {
         
-        if(isPlatformServer(platformId)){return;}
+        if(isPlatformServer(this.platformId)){return;}
         
         this._options = {
             container: this.lavContainer.nativeElement,
