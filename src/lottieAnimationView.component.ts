@@ -1,4 +1,6 @@
-import { Component, Input, OnInit, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, ViewChild, ElementRef, PLATFORM_ID, Inject } from '@angular/core';
+import { isPlatformServer } from '@angular/common';
+
 declare let require: any;
 const lottie: any = require('lottie-web/build/player/lottie.js');
 
@@ -10,6 +12,11 @@ const lottie: any = require('lottie-web/build/player/lottie.js');
 })
 
 export class LottieAnimationViewComponent implements OnInit {
+    
+    constructor(@Inject(PLATFORM_ID) platformId: string) {
+       isPlatformBrowser(platformId);
+    }
+
     @Input() options: any;
     @Input() width: number;
     @Input() height: number;
@@ -23,6 +30,9 @@ export class LottieAnimationViewComponent implements OnInit {
     private _options: any;
 
     ngOnInit() {
+        
+        if(isPlatformServer(platformId)){return;}
+        
         this._options = {
             container: this.lavContainer.nativeElement,
             renderer: 'svg',
