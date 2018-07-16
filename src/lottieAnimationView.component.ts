@@ -25,7 +25,7 @@ export class LottieAnimationViewComponent implements OnInit {
     ngOnInit() {
         this._options = {
             container: this.lavContainer.nativeElement,
-            renderer: 'svg',
+            renderer: this.options.renderer || 'svg',
             loop: this.options.loop !== false,
             autoplay: this.options.autoplay !== false,
             autoloadSegments: this.options.autoloadSegments !== false,

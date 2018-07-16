@@ -84,6 +84,7 @@ export class DemoComponent {
     constructor() {
         this.lottieConfig = {
             path: 'assets/pinjump.json',
+            renderer: 'canvas',
             autoplay: true,
             loop: true
         };
