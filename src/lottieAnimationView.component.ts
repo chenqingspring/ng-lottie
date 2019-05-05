@@ -7,7 +7,7 @@ const lottie: any = require('lottie-web/build/player/lottie.js');
 @Component({
     selector: 'lottie-animation-view',
     template: `<div #lavContainer 
-                    [ngStyle]="{'width': viewWidth, 'height': viewHeight, 'overflow':'hidden', 'margin': '0 auto'}">    
+                    [ngStyle]="{'width': viewWidth, 'height': viewHeight, 'overflow':'hidden', 'margin': '0 auto'}" class="flor-anim">    
                </div>`
 })
 
@@ -16,8 +16,8 @@ export class LottieAnimationViewComponent implements OnInit {
     constructor(@Inject(PLATFORM_ID) private platformId: string) {}
 
     @Input() options: any;
-    @Input() width: number;
-    @Input() height: number;
+    @Input() width: any;
+    @Input() height: any;
 
     @Output() animCreated: any = new EventEmitter();
 
@@ -42,8 +42,8 @@ export class LottieAnimationViewComponent implements OnInit {
             rendererSettings: this.options.rendererSettings || {}
         };
 
-        this.viewWidth = this.width + 'px' || '100%';
-        this.viewHeight = this.height + 'px' || '100%';
+        this.viewWidth = this.width || '100%';
+        this.viewHeight = this.height || '100%';
 
         let anim: any = lottie.loadAnimation(this._options);
         this.animCreated.emit(anim);
