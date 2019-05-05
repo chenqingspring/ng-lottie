@@ -5,13 +5,13 @@ declare let require: any;
 const lottie: any = require('lottie-web/build/player/lottie.js');
 
 @Component({
-    selector: 'animacion-lottie',
+    selector: 'lottie-animation-view',
     template: `<div #lavContainer 
                     [ngStyle]="{'width': viewWidth, 'height': viewHeight, 'overflow':'hidden', 'margin': '0 auto'}" class="flor-anim">    
                </div>`
 })
 
-export class LottieAnimationComponent implements OnInit {
+export class LottieAnimationViewComponent implements OnInit {
     
     constructor(@Inject(PLATFORM_ID) private platformId: string) {}
 
