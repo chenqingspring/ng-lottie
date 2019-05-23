@@ -77,7 +77,7 @@
     "typedoc": "^0.5.0",
     "typescript": "~2.1.5",
     "webpack": "^1.13.0",
-    "webpack-dev-server": "^1.16.1",
+    "webpack-dev-server": "^3.1.11",
     "zone.js": "^0.8.4"
   },
   "peerDependencies": {},
