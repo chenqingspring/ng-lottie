@@ -7,7 +7,8 @@
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/chenqingspring/ng-lottie/master/LICENSE)
 
 ## Demo
-https://chenqingspring.github.io/ng-lottie/demo/
+https://chenqingspring.github.io/ng-lottie/demo/  
+https://bit.dev/chenqingspring/ng-lottie/lottie
 
 Renamed from ***lottie-angular2*** after angular4 supported
 
