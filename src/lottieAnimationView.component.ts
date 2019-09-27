@@ -7,7 +7,7 @@ const lottie: any = require('lottie-web/build/player/lottie.js');
 @Component({
     selector: 'lottie-animation-view',
     template: `<div #lavContainer 
-                    [ngStyle]="{'width': viewWidth, 'height': viewHeight, 'overflow':'hidden', 'margin': '0 auto'}">    
+                    [ngStyle]="{'width': viewWidth, 'height': viewHeight, 'overflow':'hidden'}">    
                </div>`
 })
 
