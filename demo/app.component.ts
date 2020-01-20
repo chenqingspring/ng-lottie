@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 
 @Component({
-    selector: 'lottie-animation-view-demo-app',
-    template: ` <lottie-animation-view
+  selector: 'lottie-animation-view-demo-app',
+  template: ` <lottie-animation-view
                     [options]="lottieConfig"
                     [width]="300"
                     [height]="600"
@@ -18,7 +18,7 @@ import { Component } from '@angular/core';
                 <button (click)="pause()">pause</button>
                 <button (click)="play()">play</button>
               </div>`,
-    styles: [`
+  styles: [`
     #player{
        text-align: center;
     }
@@ -37,37 +37,37 @@ import { Component } from '@angular/core';
 
 export class AppComponent {
 
-    public lottieConfig: Object;
-    private anim: any;
-    private animationSpeed: number = 1;
+  public lottieConfig: Object;
+  private anim: any;
+  private animationSpeed: number = 1;
 
-    constructor() {
-        this.lottieConfig = {
-            path: 'assets/pinjump.json',
-            autoplay: true,
-            loop: true
-        };
-    }
+  constructor() {
+    this.lottieConfig = {
+      path: 'assets/pinjump.json',
+      autoplay: true,
+      loop: true
+    };
+  }
 
-    handleAnimation(anim: any) {
-        this.anim = anim;
-    }
+  handleAnimation(anim: any) {
+    this.anim = anim;
+  }
 
-    stop() {
-        this.anim.stop();
-    }
+  stop() {
+    this.anim.stop();
+  }
 
-    play() {
-        this.anim.play();
-    }
+  play() {
+    this.anim.play();
+  }
 
-    pause() {
-        this.anim.pause();
-    }
+  pause() {
+    this.anim.pause();
+  }
 
-    setSpeed(speed: number) {
-        this.animationSpeed = speed;
-        this.anim.setSpeed(speed);
-    }
+  setSpeed(speed: number) {
+    this.animationSpeed = speed;
+    this.anim.setSpeed(speed);
+  }
 
 }
