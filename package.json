@@ -71,7 +71,7 @@
     "sinon": "^1.17.4",
     "sinon-chai": "^2.8.0",
     "sourcemap-istanbul-instrumenter-loader": "^0.2.0",
-    "standard-version": "^4.0.0",
+    "standard-version": "^8.0.1",
     "tslint": "^4.0.2",
     "tslint-loader": "^3.3.0",
     "typedoc": "^0.5.0",
