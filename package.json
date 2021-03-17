@@ -21,7 +21,7 @@
     "release": "git add package.json && git commit -m 'chore: bump version number' && standard-version --first-release && git push --follow-tags origin master && npm run build:dist && npm publish",
     "postrelease": "npm run build:clean && npm run gh-pages"
   },
-  "repository": "git+https://github.com/chenqingspring/ng-lottie.git",
+  "repository": "git+https://github.com/YaakovHatam/ng-lottie.git",
   "keywords": [
     "angular2",
     "angular4",
@@ -30,9 +30,9 @@
   "author": "CHEN Qing",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/chenqingspring/ng-lottie/issues"
+    "url": "https://github.com/YaakovHatam/ng-lottie/issues"
   },
-  "homepage": "https://github.com/chenqingspring/ng-lottie#readme",
+  "homepage": "https://github.com/YaakovHatam/ng-lottie#readme",
   "devDependencies": {
     "@angular/common": "^4.0.0",
     "@angular/compiler": "^4.0.0",
