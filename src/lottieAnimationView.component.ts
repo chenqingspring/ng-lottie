@@ -1,4 +1,4 @@
-import { Component, Input, AfterViewInit, Output, EventEmitter, ViewChild, ElementRef, PLATFORM_ID, Inject } from '@angular/core';
+import { Component, Input, OnInit, AfterViewInit, Output, EventEmitter, ViewChild, ElementRef, PLATFORM_ID, Inject } from '@angular/core';
 import { isPlatformServer } from '@angular/common';
 
 declare let require: any;
