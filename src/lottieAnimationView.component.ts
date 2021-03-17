@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter, ViewChild, ElementRef, PLATFORM_ID, Inject } from '@angular/core';
+import { Component, Input, OnInit, AfterViewInit, Output, EventEmitter, ViewChild, ElementRef, PLATFORM_ID, Inject } from '@angular/core';
 import { isPlatformServer } from '@angular/common';
 
 declare let require: any;
@@ -11,7 +11,7 @@ const lottie: any = require('lottie-web/build/player/lottie.js');
                </div>`
 })
 
-export class LottieAnimationViewComponent implements OnInit {
+export class LottieAnimationViewComponent implements OnInit, AfterViewInit {
     
     constructor(@Inject(PLATFORM_ID) private platformId: string) {}
 
@@ -28,6 +28,12 @@ export class LottieAnimationViewComponent implements OnInit {
     private _options: any;
 
     ngOnInit() {
+        if(isPlatformServer(this.platformId)){return;}
+
+        this.viewWidth = this.width + 'px' || '100%';
+        this.viewHeight = this.height + 'px' || '100%';
+    }
+    ngAfterViewInit() {
         
         if(isPlatformServer(this.platformId)){return;}
         
@@ -41,9 +47,6 @@ export class LottieAnimationViewComponent implements OnInit {
             path: this.options.path || '',
             rendererSettings: this.options.rendererSettings || {}
         };
-
-        this.viewWidth = this.width + 'px' || '100%';
-        this.viewHeight = this.height + 'px' || '100%';
 
         let anim: any = lottie.loadAnimation(this._options);
         this.animCreated.emit(anim);

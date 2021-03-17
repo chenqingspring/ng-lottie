@@ -11,7 +11,7 @@ import { LottieAnimationViewComponent } from './lottieAnimationView.component';
 })
 export class LottieAnimationViewModule {
 
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<LottieAnimationViewModule> {
     return {
       ngModule: LottieAnimationViewModule
     };
