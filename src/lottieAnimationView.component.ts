@@ -11,7 +11,7 @@ const lottie: any = require('lottie-web/build/player/lottie.js');
                </div>`
 })
 
-export class LottieAnimationViewComponent implements AfterViewInit {
+export class LottieAnimationViewComponent implements OnInit, AfterViewInit {
     
     constructor(@Inject(PLATFORM_ID) private platformId: string) {}
 
@@ -27,6 +27,12 @@ export class LottieAnimationViewComponent implements AfterViewInit {
     public viewHeight: string;
     private _options: any;
 
+    ngOnInit() {
+        if(isPlatformServer(this.platformId)){return;}
+
+        this.viewWidth = this.width + 'px' || '100%';
+        this.viewHeight = this.height + 'px' || '100%';
+    }
     ngAfterViewInit() {
         
         if(isPlatformServer(this.platformId)){return;}
@@ -41,9 +47,6 @@ export class LottieAnimationViewComponent implements AfterViewInit {
             path: this.options.path || '',
             rendererSettings: this.options.rendererSettings || {}
         };
-
-        this.viewWidth = this.width + 'px' || '100%';
-        this.viewHeight = this.height + 'px' || '100%';
 
         let anim: any = lottie.loadAnimation(this._options);
         this.animCreated.emit(anim);
