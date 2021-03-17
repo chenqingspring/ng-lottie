@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter, ViewChild, ElementRef, PLATFORM_ID, Inject } from '@angular/core';
+import { Component, Input, AfterViewInit, Output, EventEmitter, ViewChild, ElementRef, PLATFORM_ID, Inject } from '@angular/core';
 import { isPlatformServer } from '@angular/common';
 
 declare let require: any;
@@ -11,7 +11,7 @@ const lottie: any = require('lottie-web/build/player/lottie.js');
                </div>`
 })
 
-export class LottieAnimationViewComponent implements OnInit {
+export class LottieAnimationViewComponent implements AfterViewInit {
     
     constructor(@Inject(PLATFORM_ID) private platformId: string) {}
 
@@ -27,7 +27,7 @@ export class LottieAnimationViewComponent implements OnInit {
     public viewHeight: string;
     private _options: any;
 
-    ngOnInit() {
+    ngAfterViewInit() {
         
         if(isPlatformServer(this.platformId)){return;}
         
