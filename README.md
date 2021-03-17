@@ -1,5 +1,8 @@
 # Lottie Animation View for Angular ([React](https://github.com/chenqingspring/react-lottie), [Vue](https://github.com/chenqingspring/vue-lottie))
+## Install
+`npm i https://github.com/YaakovHatam/ng-lottie`
 
+##
 [![Build Status](https://travis-ci.org/chenqingspring/ng-lottie.svg?branch=master)](https://travis-ci.org/chenqingspring/ng-lottie)
 [![npm version](https://badge.fury.io/js/ng-lottie.svg)](http://badge.fury.io/js/ng-lottie)
 [![GitHub issues](https://img.shields.io/github/issues/chenqingspring/ng-lottie.svg)](https://github.com/chenqingspring/ng-lottie/issues)
